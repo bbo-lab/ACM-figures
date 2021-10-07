@@ -4,7 +4,7 @@
 1. Clone repository
 2. Download data folder: https://www.dropbox.com/sh/mtjr1g99khl4m81/AABXdk9Dv5gGjOzaN_UnXWV2a?dl=0
 3. Change the 'path' variable in '/ACM-figures/ACM/data.py' to the absolute location of the downloaded data folder
-4. Allow figure-scipts to execute files as progams (i.e. 'sudo chmod +x figure_script.py' on Linux)
+4. Allow figure-scipts to be executed as progams (i.e. 'sudo chmod +x figure_script.py' on Linux)
 5. Run the figure-scripts (i.e. './figure_script.py' on Linux)
 
 ## Additional information:
