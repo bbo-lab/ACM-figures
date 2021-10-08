@@ -184,7 +184,7 @@ if __name__ == '__main__':
     file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
     file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
     file_model = folder_reqFiles + '/model.npy'
-    file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + '/labels_dlc_{:06d}_{:06d}.npy'.format(cfg.index_frame_start, cfg.index_frame_end)
+    file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/labels_dlc_{:06d}_{:06d}.npy'.format(cfg.index_frame_start, cfg.index_frame_end)
     #
     file_labels_down = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/labels_down_all.npz'
     file_calibration_all = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/calibration_all/multicalibration.npy'
