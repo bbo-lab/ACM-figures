@@ -47,7 +47,7 @@ normalize_camera_sensor_y = 1024.0 # e.g. camera sensor size (height) [px]
 plot_calib = False
 sigma_factor = 10.0
 body_weight = 0.0 # [g]
-dFrames_calib = 200 
+dFrames_calib = 0 
 index_frames_calib = list([[0, 0],])
 #
 opt_method_calib = 'L-BFGS-B'
