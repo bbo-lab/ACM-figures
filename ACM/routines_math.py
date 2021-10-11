@@ -1,5 +1,6 @@
-import configuration as cfg
 import numpy as np
+
+import configuration as cfg
 
 def rodrigues2rotMat_single(r):
     if np.all(abs(r) <= cfg.num_tol):
