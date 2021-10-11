@@ -6,6 +6,7 @@ from mayavi import mlab
 import numpy as np
 import os
 import scipy
+import scipy.optimize
 import sys
 import time
 import torch
@@ -18,9 +19,7 @@ sys.path.append(os.path.abspath('../ACM'))
 import data
 import helper
 import anatomy
-import routines_math as rout_m
 import model
-import optimization as opt
 sys_path0 = np.copy(sys.path)
 
 verbose = True
@@ -237,12 +236,6 @@ def obj_fcn__wrap(x_free, args):
 
 def optimize__scipy(x_free, args,
                     opt_dict):
-#     bounds_free_low = np.zeros_like(x_free, dtype=np.float64)
-#     bounds_free_high = np.zeros_like(x_free, dtype=np.float64)
-#     bounds_free_low[:] = -np.inf
-#     bounds_free_high[:] = np.inf
-#     bounds_free = np.stack([bounds_free_low, bounds_free_high], 1)
-    
     bounds_free_pose = args['bounds_free_pose']
     bounds_free_low_pose = model.do_normalization(bounds_free_pose[:, 0][None, :], args).numpy().ravel()
     bounds_free_high_pose = model.do_normalization(bounds_free_pose[:, 1][None, :], args).numpy().ravel()
@@ -271,7 +264,6 @@ def optimize__scipy(x_free, args,
     return min_result
 
 # PLOTTING
-
 skeleton3d_scale_factor = 1/3
 color_surf = (75/255, 75/255, 75/255)
 bones3d_line_width = 2

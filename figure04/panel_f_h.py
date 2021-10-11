@@ -21,6 +21,7 @@ import model
 sys_path0 = np.copy(sys.path)
 
 save = False
+verbose = True
 
 folder_save = os.path.abspath('panels')
 
@@ -1233,9 +1234,12 @@ if __name__ == '__main__':
                 ax3d.view_init(azim=azim+180, elev=elev)    
             #
             fig3d.canvas.draw()
-            plt.show(block=False)
-#             print('Press any key to continue')
-#             input()
+            if verbose:
+                plt.show(block=False)
+        if verbose:
+            print('Press any key to continue')
+            input()
             
     plt.pause(2**-10)
-    plt.show()
+    if verbose:
+        plt.show()

@@ -24,8 +24,8 @@ sys.path.pop(sys.path.index(os.path.abspath('../ACM/config')))
 sys.path.append(os.path.abspath('../ACM'))
 import anatomy
 import data
-import kalman
 import helper
+import kalman
 import model
 sys_path0 = np.copy(sys.path)
 

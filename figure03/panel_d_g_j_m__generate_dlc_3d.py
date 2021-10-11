@@ -4,7 +4,7 @@ import numpy as np
 import os
 import sys
 
-save = False
+save = True
 
 sys.path.append(os.path.abspath('../ACM/config'))
 import configuration as cfg
@@ -12,7 +12,6 @@ sys.path.append(os.path.abspath('../ACM'))
 import data
 import helper
 import interp_3d
-import routines_math as rout_m
 
 if __name__ == '__main__':
     date_list = list(['20200205', '20200207'])

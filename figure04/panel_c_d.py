@@ -22,6 +22,7 @@ import model
 sys_path0 = np.copy(sys.path)
 
 save = False
+verbose = True
 
 folder_save = os.path.abspath('panels')
 
@@ -834,5 +835,5 @@ if __name__ == '__main__':
                      transparent=True,
                      format='svg',
                      pad_inches=0)
-        
-    plt.show()
+    if verbose:
+        plt.show()

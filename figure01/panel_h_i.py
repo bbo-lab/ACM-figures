@@ -18,7 +18,6 @@ sys.path.append(os.path.abspath('../ACM'))
 import data
 import helper
 import anatomy
-import routines_math as rout_m
 import model
 sys_path0 = np.copy(sys.path)
 

@@ -21,6 +21,7 @@ import model
 sys_path0 = np.copy(sys.path)
 
 save = False
+verbose = True
 
 folder_save = os.path.abspath('panels')
 
@@ -1143,7 +1144,7 @@ if __name__ == '__main__':
     ax_corr.yaxis.set_label_coords(x=left_margin_x/fig_corr_w, y=ax_corr_y+0.5*ax_corr_h, transform=fig_corr.transFigure)
     fig_corr.canvas.draw()
     if save:
-        fig_corr.savefig('/home/'+user+'/Dropbox/8_rat full body tracking/figures/fig04_new/correlation_distance.svg',
+        fig_corr.savefig(folder_save+'/correlation_distance.svg',
 #                          bbox_inches="tight",
                          dpi=300,
                          transparent=True,
@@ -1232,7 +1233,7 @@ if __name__ == '__main__':
 #         print('Press any key to continue')
 #         input()
         if save:
-            fig_scatter.savefig('/home/'+user+'/Dropbox/8_rat full body tracking/figures/fig04_new/distance_vs_metric_x{:03d}_y{:03d}.svg'.format(scatter_index_x, scatter_index_y),
+            fig_scatter.savefig(folder_save+'/distance_vs_metric_x{:03d}_y{:03d}.svg'.format(scatter_index_x, scatter_index_y),
     #                          bbox_inches="tight",
                              dpi=300,
                              transparent=True,
@@ -1356,14 +1357,18 @@ if __name__ == '__main__':
             fig3d.canvas.draw()
             plt.show(block=False)
             if save:
-                fig3d.savefig('/home/'+user+'/Dropbox/8_rat full body tracking/figures/fig04_new/distance_vs_metric_x{:03d}_y{:03d}_3d_{:s}.svg'.format(scatter_index_x, scatter_index_y, s_min_max),
+                fig3d.savefig(fodler_save+'/distance_vs_metric_x{:03d}_y{:03d}_3d_{:s}.svg'.format(scatter_index_x, scatter_index_y, s_min_max),
         #                          bbox_inches="tight",
                                  dpi=300,
                                  transparent=True,
                                  format='svg',
                                  pad_inches=0)
-#             print('Press any key to continue')
-#             input()
+                if verbose:
+                    plt.show(block=False)
+            if verbose:
+                print('Press any key to continue')
+                input()
 
     plt.pause(2**-10)
-    plt.show()
+    if verbose:
+        plt.show()
