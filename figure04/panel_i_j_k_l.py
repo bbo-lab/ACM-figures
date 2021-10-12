@@ -1230,8 +1230,6 @@ if __name__ == '__main__':
         ax_scatter.yaxis.set_label_coords(x=left_margin_x/fig_scatter_w, y=ax_scatter_y+0.5*ax_scatter_h, transform=fig_scatter.transFigure)
         fig_scatter.canvas.draw()
         plt.show(block=False)
-#         print('Press any key to continue')
-#         input()
         if save:
             fig_scatter.savefig(folder_save+'/distance_vs_metric_x{:03d}_y{:03d}.svg'.format(scatter_index_x, scatter_index_y),
     #                          bbox_inches="tight",
@@ -1239,13 +1237,7 @@ if __name__ == '__main__':
                              transparent=True,
                              format='svg',
                              pad_inches=0)
-    
-    
-    
-    
-    
-    
-    
+
         # 3D
         linewidth_fac = 0.25
         cmap_time = plt.cm.plasma
@@ -1365,9 +1357,9 @@ if __name__ == '__main__':
                                  pad_inches=0)
                 if verbose:
                     plt.show(block=False)
-            if verbose:
-                print('Press any key to continue')
-                input()
+        if verbose:
+            print('Press any key to continue')
+            input()
 
     plt.pause(2**-10)
     if verbose:
