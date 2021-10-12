@@ -23,6 +23,7 @@ sys.path.append(os.path.abspath('../ccv'))
 import ccv
 
 save = False
+verbose = True
 
 saveFolder = os.path.abspath('figures')
 
@@ -306,5 +307,5 @@ if __name__ == '__main__':
                       format='tiff',
                       pad_inches=0,
                       facecolor=fig2d.get_facecolor(), edgecolor='none')   
-    
-    plt.show()
+    if verbose:
+        plt.show()

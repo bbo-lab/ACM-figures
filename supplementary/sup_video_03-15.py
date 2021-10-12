@@ -44,7 +44,7 @@ cmap = plt.cm.viridis
     
 xy_range = 256
         
-nSamples = int(1e3)
+nSamples = int(1e3) # minimum: 1
 max_std = 5.0 # [px] any std > max_std is treated as totally uncertain
 
 sys.path = list(np.copy(sys_path0))
