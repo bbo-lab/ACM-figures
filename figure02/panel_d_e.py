@@ -587,6 +587,10 @@ if __name__ == '__main__':
                         transparent=True,
                         format='tiff',
                         pad_inches=0)
+        if verbose:
+            plt.show(block=False)
+            print('Press any key to continue')
+            input()
         
         # angle
         dist_annotate_h2[0].set_visible(False)
