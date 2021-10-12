@@ -6,7 +6,7 @@
 3. Create a new Anaconda environment ('conda env create -f environment.yml' on Linux)
 4. Activate the new Anaconda environment ('conda activate ACM-fig' on Linux)
 5. Download the data folder: https://www.dropbox.com/sh/mtjr1g99khl4m81/AABXdk9Dv5gGjOzaN_UnXWV2a?dl=0
-6. Change the 'path' variable in '/ACM-figures/ACM/data.py' to the full path of the downloaded data folder
+6. Change the 'path' variable in /ACM-figures/ACM/data.py to the full path of the downloaded data folder
 7. Allow figure-scipts to be executed as progams ('sudo chmod +x figure_script.py' on Linux)
 8. Run the figure-scripts ('./figure_script.py' on Linux)
 
