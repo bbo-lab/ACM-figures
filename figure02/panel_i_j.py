@@ -806,8 +806,9 @@ if __name__ == '__main__':
         x = np.zeros(2+2*(len(hist[1])-1), dtype=np.float64)
         x[0] = np.copy(hist[1][0])
         x[1:-1:2] = np.copy(hist[1][:-1])
-        x[2:-1:2] = np.copy(hist[1][1:])
-        x[-1] = np.copy(hist[1][-1])
+        x[2:-1:2] = np.copy(hist[1][1:])        
+        x[-2] = maxBin_pos
+        x[-1] = maxBin_pos
         #
         ax_hist.plot(x, y, color=colors[3-i_mode], linestyle='-', marker='', zorder=0-i_mode, linewidth=linewidth_hist, clip_on=False)
     n_hist_detec = np.sum(nDetections_all)
