@@ -1349,7 +1349,7 @@ if __name__ == '__main__':
             fig3d.canvas.draw()
             plt.show(block=False)
             if save:
-                fig3d.savefig(fodler_save+'/distance_vs_metric_x{:03d}_y{:03d}_3d_{:s}.svg'.format(scatter_index_x, scatter_index_y, s_min_max),
+                fig3d.savefig(folder_save+'/distance_vs_metric_x{:03d}_y{:03d}_3d_{:s}.svg'.format(scatter_index_x, scatter_index_y, s_min_max),
         #                          bbox_inches="tight",
                                  dpi=300,
                                  transparent=True,
