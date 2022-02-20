@@ -20,8 +20,8 @@ import helper
 import model
 sys_path0 = np.copy(sys.path)
 
-save = False
-verbose = True
+save = True
+verbose = False
 
 folder_save = os.path.abspath('panels')
 
@@ -1344,7 +1344,18 @@ if __name__ == '__main__':
             if (side_jumps[i_folder]):
                 ax3d.view_init(azim=azim, elev=elev)
             else:
-                ax3d.view_init(azim=azim+180, elev=elev)    
+                ax3d.view_init(azim=azim+180, elev=elev)
+            cax = fig3d.add_axes([0.35, 0.4, 0.3, 0.025]) # left, bottom, width, height
+            clim_min = 0.0
+            clim_max = (nT_plot-1)/cfg.frame_rate * 1e3
+            mappable2d = plt.cm.ScalarMappable(cmap=cmap_time)
+            mappable2d.set_clim([clim_min, clim_max])
+            colorbar2d = fig3d.colorbar(mappable=mappable2d, cax=cax,
+                                        orientation='horizontal',
+                                        ticks=[clim_min, clim_max])
+            colorbar2d.outline.set_edgecolor('white')
+            colorbar2d.set_label('time (ms)', labelpad=-5, rotation=0, fontsize=fontsize, fontname=fontname)
+            colorbar2d.ax.tick_params(color='white', labelsize=fontsize)
             #
             fig3d.canvas.draw()
             plt.show(block=False)
