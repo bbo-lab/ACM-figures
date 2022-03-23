@@ -123,6 +123,9 @@ def extract_mri_labeling(file_mri_labeling, resolution, joint_name_start):
     labels3d = model['joints']
     links = model['links']
     
+    for k,v in labels3d.items():
+        labels3d[k][labels3d[k]<0] = 0
+    
     markers = dict()
     joints = dict()
     for i in labels3d.keys():
