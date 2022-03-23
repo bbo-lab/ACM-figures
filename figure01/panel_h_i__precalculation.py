@@ -11,11 +11,15 @@ import sys
 import time
 import torch
 
-sys.path.append(os.path.abspath('../ACM/config'))
+ACMconfig_path = os.path.dirname(os.path.abspath(__file__))+'/../ACM/config'
+#'/media/smb/soma-fs.ad01.caesar.de/bbo/projects/monsees-pose/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/'
+ACMcode_path = os.path.dirname(os.path.abspath(__file__))+'/../ACM'
+
+sys.path.append(ACMconfig_path)
 import configuration as cfg
-sys.path.pop(sys.path.index(os.path.abspath('../ACM/config')))
+sys.path.pop(sys.path.index(ACMconfig_path))
 #
-sys.path.append(os.path.abspath('../ACM'))
+sys.path.append(os.path.abspath(ACMcode_path))
 import data
 import helper
 import anatomy
@@ -25,20 +29,27 @@ sys_path0 = np.copy(sys.path)
 verbose = True
 save = False
 
-folder_reconstruction = data.path+'/reconstruction'
-folder_list = list([folder_reconstruction+'/20200205/arena_20200205_calibration_on',
-                    folder_reconstruction+'/20200207/arena_20200207_calibration_on',
-                    folder_reconstruction+'/20210511_1/table_{:01d}_20210511_calibration'.format(1),
-                    folder_reconstruction+'/20210511_2/table_{:01d}_20210511_calibration__more'.format(2),
-                    folder_reconstruction+'/20210511_3/table_{:01d}_20210511_calibration'.format(3),
-                    folder_reconstruction+'/20210511_4/table_{:01d}_20210511_calibration__more'.format(4),])
-file_mri_list = list(['/mri_skeleton0_full.npy',
-                      '/mri_skeleton0_full.npy',
-                      '/mri_{:01d}'.format(1) + '/mri_skeleton0_full.npy',
-                      '/mri_{:01d}'.format(2) + '/mri_skeleton0_full.npy',
-                      '/mri_{:01d}'.format(3) + '/mri_skeleton0_full.npy',
-                      '/mri_{:01d}'.format(4) + '/mri_skeleton0_full.npy'])
-list_is_large_animal = list([0, 0, 0, 0, 1, 1])
+folder_base = data.path+'/../dataset_analysis/'
+folder_list = list([
+    folder_base+'/M220217_DW01/ACM/',
+    folder_base+'/20200205/arena_20200205_calibration_on/',
+    ])
+
+file_acm_list = list([
+    folder_base+'/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/',
+    folder_base+'/../datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
+    ])
+
+file_acmres_list = list([
+    folder_base+'/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/results/M220217_DW01_20220309_173500_DWchecked_20220314-221557/',
+    folder_base+'/../datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
+    ])
+
+file_mri_list = list([
+    folder_base+'/M220217_DW01/MRI/labels_m1.npy',
+    folder_base+'/../datasets_figures/required_files/20200205/mri_skeleton0_full.npy',
+    ])
+list_is_large_animal = list([0, 0])
 
 # MATH
 def rodrigues2rotMat_single(r):
@@ -107,6 +118,7 @@ def rotMat2rodrigues_single(R):
 # MRI
 
 def extract_mri_labeling(file_mri_labeling, resolution, joint_name_start):
+    print(file_mri_labeling)
     model = np.load(file_mri_labeling, allow_pickle=True).item()
     labels3d = model['joints']
     links = model['links']
@@ -381,21 +393,32 @@ def plot_model(x_torch, argsv,
 if __name__ == "__main__":
     for i_folder in range(len(folder_list)):
         folder = folder_list[i_folder]
+        folder_acmres = file_acmres_list[i_folder]
+        folder_acm = file_acm_list[i_folder]
 
         sys.path = list(np.copy(sys_path0))
-        sys.path.append(folder)
+        sys.path.append(folder_acm)
+
         importlib.reload(cfg)
         cfg.animal_is_large = list_is_large_animal[i_folder]
         importlib.reload(anatomy)
         #
         folder_reqFiles = data.path + '/required_files'
-        file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
-        file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
-        file_model = folder_reqFiles + '/model.npy'
-        file_labelsDLC = folder_reqFiles + '/labels_dlc_dummy.npy' # DLC labels are actually never needed here
+        file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy' # Backwards compatibiliy
+        if not os.path.isfile(file_origin_coord):
+            file_origin_coord = cfg.file_origin_coord
+        file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy' # Backwards compatibiliy
+        if not os.path.isfile(file_calibration):
+            file_calibration = cfg.file_calibration
+        file_model = folder_reqFiles + '/model.npy' # Backwards compatibiliy
+        if not os.path.isfile(file_model):
+            file_model = cfg.file_model
+        file_labelsDLC = folder_reqFiles + '/labels_dlc_dummy.npy' # DLC labels are actually never needed here  # Backwards compatibiliy
+        if not os.path.isfile(file_labelsDLC):
+            file_labelsDLC = cfg.file_labelsDLC
         
         # GET THE DATA FROM THE MRI SCAN
-        file_mri = folder_reqFiles + '/' + cfg.date + '/' + file_mri_list[i_folder]
+        file_mri = file_mri_list[i_folder]
     
         resolution_mri = 0.4
         joint_start = 'joint_head_001'
@@ -461,7 +484,8 @@ if __name__ == "__main__":
 
 
         # load calibrated model and initalize the pose
-        x_calib = np.load(folder + '/x_calib.npy', allow_pickle=True)
+        print(folder_acmres + '/x_calib.npy')
+        x_calib = np.load(folder_acmres + '/x_calib.npy', allow_pickle=True)
         x_bones = x_calib[:nPara_bones]
         x_markers = x_calib[nPara_bones:nPara_bones+nPara_markers]
     #     x_pose = x_calib[nPara_bones+nPara_markers:]
@@ -528,8 +552,10 @@ if __name__ == "__main__":
         x_align[free_para] = x_align_free
         # save
         if save:
-            np.save(folder + '/x_align.npy', x_align)
-            print('Saved aligned 3D model ({:s})'.format(folder + '/x_align.npy'))
+            savefolder = folder + '/figures/figure1/panel_h_i/'
+            os.makedirs(savefolder)
+            np.save(savefolder + '/x_align.npy', x_align)
+            print('Saved aligned 3D model ({:s})'.format(savefolder + '/x_align.npy'))
             print()
 
         if (verbose):

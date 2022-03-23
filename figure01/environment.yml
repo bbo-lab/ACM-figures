@@ -1,0 +1,15 @@
+name: ACM-figures
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.6
+  - importlib_resources
+  - importlib_metadata
+  - numpy
+  - scipy
+  - pytorch
+  - pip
+  - pip:
+    - mayavi
+prefix: /home/voit/anaconda3/envs/ACM-figures
