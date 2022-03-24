@@ -49,6 +49,8 @@ file_mri_list = list([
     folder_base+'/M220217_DW01/MRI/labels_m1.npy',
     folder_base+'/../datasets_figures/required_files/20200205/mri_skeleton0_full.npy',
     ])
+
+resolution_mri_list = [0.2 0.4]
 list_is_large_animal = list([0, 0])
 
 # MATH
@@ -423,7 +425,7 @@ if __name__ == "__main__":
         # GET THE DATA FROM THE MRI SCAN
         file_mri = file_mri_list[i_folder]
     
-        resolution_mri = 0.4
+        resolution_mri = resolution_mri_list[i_folder]
         joint_start = 'joint_head_001'
         joints_mri, markers_mri, skeleton_verts_mri, skeleton_edges_mri, joints_visited_mri = \
             extract_mri_labeling(file_mri, resolution_mri, joint_start)
