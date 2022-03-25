@@ -125,8 +125,10 @@ def save_fig3d(file, fig, bool_legend=False):
                                  linestyle='-',
                                  linewidth=linewidth3d,
                                  label='Fit')
-        h_legend = list([legend_0, legend_fit])
-        ax0.legend(handles=h_legend, loc='upper left', fontname=fontname, fontsize=fontsize, frameon=False)
+    h_legend_list = list([legend_0, legend_fit])
+    h_legend = ax0.legend(handles=h_legend_list, loc='upper left', fontsize=fontsize, frameon=False)
+    for text in h_legend.get_texts():
+        text.set_fontname(fontname)
 
     #
 #     fig0.tight_layout()
