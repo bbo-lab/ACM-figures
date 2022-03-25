@@ -23,7 +23,7 @@ sys_path0 = np.copy(sys.path)
 
 save = False
 save_all = False
-verbose = True
+verbose = False
 
 folder_save = os.path.abspath('panels')
 
