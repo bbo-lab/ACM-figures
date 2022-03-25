@@ -21,9 +21,9 @@ import anatomy
 import model
 sys_path0 = np.copy(sys.path)
 
-save = False
+# save = False # LEGACY: comment to prevent memory issues (probably only occuring on Windows machines?)
 save_all = False
-verbose = False
+verbose = True
 
 folder_save = os.path.abspath('panels')
 
@@ -551,66 +551,67 @@ if __name__ == '__main__':
             surface_vertices0 = surf_verts0
             marker_positions0 = markers0
 
-        #     mlab.options.offscreen = True
-            # PLOT
-            fig = mlab.figure(1,
-                              size=(1080, 1080),
-                              bgcolor=(1, 1, 1))
-        #     fig = mlab.figure(1,
-        #                       size=(10240, 10240),
-        #                       bgcolor=(1, 1, 1))
-            mlab.clf()
-            plot_model_3d(fig,
-                          skeleton_edges0, skeleton_vertices0,
-                          surface_triangles0, surface_vertices0,
-                          color=color_mri[:3])
-            plot_model_3d(fig,
-                          skeleton_edges_new, skeleton_vertices_new,
-                          None, None,
-                          color=color_fit[:3])
+#             # LEGACY: comment to prevent memory issues (probably only occuring on Windows machines?)
+#         #     mlab.options.offscreen = True
+#             # PLOT
+#             fig = mlab.figure(1,
+#                               size=(1080, 1080),
+#                               bgcolor=(1, 1, 1))
+#         #     fig = mlab.figure(1,
+#         #                       size=(10240, 10240),
+#         #                       bgcolor=(1, 1, 1))
+#             mlab.clf()
+#             plot_model_3d(fig,
+#                           skeleton_edges0, skeleton_vertices0,
+#                           surface_triangles0, surface_vertices0,
+#                           color=color_mri[:3])
+#             plot_model_3d(fig,
+#                           skeleton_edges_new, skeleton_vertices_new,
+#                           None, None,
+#                           color=color_fit[:3])
 
-            # scalebar
-            scalebar_location_start = np.array([2.5, 0.0, 1.0], dtype=np.float64)
-            scalebar_location_end = np.array([2.5, 4.0, 1.0], dtype=np.float64)
-            scalebar = mlab.plot3d(np.array([scalebar_location_start[0], scalebar_location_end[0]], dtype=np.float64),
-                                   np.array([scalebar_location_start[1], scalebar_location_end[1]], dtype=np.float64),
-                                   np.array([scalebar_location_start[2], scalebar_location_end[2]], dtype=np.float64),
-                                   color=(0.0, 0.0, 0.0),
-                                   figure=fig,
-                                   line_width=bones3d_line_width,
-                                   tube_radius=bones3d_tube_radius,
-                                   tube_sides=bones3d_tube_sides)
-        #     scalebar_text_location = scalebar_location_start + (scalebar_location_end - scalebar_location_start) / 2.0
-            scalebar_text_location = scalebar_location_end + np.array([0.5, -0.75, 0.5], dtype=np.float)
-            scalebar_length = np.sqrt(np.sum((scalebar_location_end - scalebar_location_start)**2))
-            scalebar_text = mlab.text3d(scalebar_text_location[0],
-                                        scalebar_text_location[1],
-                                        scalebar_text_location[2],
-                                        '{:0.1f} cm'.format(scalebar_length),
-                                        figure=fig,
-                                        color=(0.0, 0.0, 0.0),
-                                        line_width=1.0,
-                                        scale=0.5)
+#             # scalebar
+#             scalebar_location_start = np.array([2.5, 0.0, 1.0], dtype=np.float64)
+#             scalebar_location_end = np.array([2.5, 4.0, 1.0], dtype=np.float64)
+#             scalebar = mlab.plot3d(np.array([scalebar_location_start[0], scalebar_location_end[0]], dtype=np.float64),
+#                                    np.array([scalebar_location_start[1], scalebar_location_end[1]], dtype=np.float64),
+#                                    np.array([scalebar_location_start[2], scalebar_location_end[2]], dtype=np.float64),
+#                                    color=(0.0, 0.0, 0.0),
+#                                    figure=fig,
+#                                    line_width=bones3d_line_width,
+#                                    tube_radius=bones3d_tube_radius,
+#                                    tube_sides=bones3d_tube_sides)
+#         #     scalebar_text_location = scalebar_location_start + (scalebar_location_end - scalebar_location_start) / 2.0
+#             scalebar_text_location = scalebar_location_end + np.array([0.5, -0.75, 0.5], dtype=np.float)
+#             scalebar_length = np.sqrt(np.sum((scalebar_location_end - scalebar_location_start)**2))
+#             scalebar_text = mlab.text3d(scalebar_text_location[0],
+#                                         scalebar_text_location[1],
+#                                         scalebar_text_location[2],
+#                                         '{:0.1f} cm'.format(scalebar_length),
+#                                         figure=fig,
+#                                         color=(0.0, 0.0, 0.0),
+#                                         line_width=1.0,
+#                                         scale=0.5)
 
-            fig.scene.parallel_projection = True
+#             fig.scene.parallel_projection = True
 
-            mlab.view(figure=fig,
-                      azimuth=90,
-                      elevation=0,
-                      distance=25,
-                      focalpoint=np.mean(joints0, 0))
-            if save:
-                save_fig3d(folder+'/model_aligned_xy.svg', fig, True)
+#             mlab.view(figure=fig,
+#                       azimuth=90,
+#                       elevation=0,
+#                       distance=25,
+#                       focalpoint=np.mean(joints0, 0))
+#             if save:
+#                 save_fig3d(folder+'/model_aligned_xy.svg', fig, True)
 
-            mlab.view(figure=fig,
-                      azimuth=0,
-                      elevation=-90,
-                      distance=25,
-                      focalpoint=np.mean(joints0, 0))
-            if save:
-                save_fig3d(folder+'/model_aligned_xz.svg', fig, True)
+#             mlab.view(figure=fig,
+#                       azimuth=0,
+#                       elevation=-90,
+#                       distance=25,
+#                       focalpoint=np.mean(joints0, 0))
+#             if save:
+#                 save_fig3d(folder+'/model_aligned_xz.svg', fig, True)
 
-        #     mlab.show()
+#         #     mlab.show()
 
 
             # COMPARE LENGTHS & ANGLES
@@ -863,10 +864,11 @@ if __name__ == '__main__':
             dict_aligned_pose['joint_pos0'] = joint_pos0
             dict_aligned_pose['joint_pos1'] = joint_pos1
             # 
-            if save:
-                np.save(folder + '/pos_align.npy', dict_aligned_pose)
-                print('Saved aligned 3D positions ({:s})'.format(folder + '/pos_align.npy'))
-                print()
+#             # LEGACY: comment to prevent memory issues (probably only occuring on Windows machines?)
+#             if save:
+#                 np.save(folder + '/pos_align.npy', dict_aligned_pose)
+#                 print('Saved aligned 3D positions ({:s})'.format(folder + '/pos_align.npy'))
+#                 print()
             
             # PLOT
     #         X = np.arange(np.size(bone_length0))
