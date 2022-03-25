@@ -10,22 +10,57 @@ import os
 import sys
 import torch
 
-sys.path.append(os.path.abspath('../ACM/config'))
+ACMconfig_path = os.path.dirname(os.path.abspath(__file__))+'/../ACM/config'
+#'/media/smb/soma-fs.ad01.caesar.de/bbo/projects/monsees-pose/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/'
+ACMcode_path = os.path.dirname(os.path.abspath(__file__))+'/../ACM'
+
+sys.path.append(ACMconfig_path)
 import configuration as cfg
-sys.path.pop(sys.path.index(os.path.abspath('../ACM/config')))
+sys.path.pop(sys.path.index(ACMconfig_path))
 #
-sys.path.append(os.path.abspath('../ACM'))
+sys.path.append(os.path.abspath(ACMcode_path))
 import data
 import helper
 import anatomy
 import model
 sys_path0 = np.copy(sys.path)
 
-save = False
-save_all = False
+save = True
+save_all = True
 verbose = True
 
-folder_save = os.path.abspath('panels')
+folder_base = data.path
+folder_list = list([
+    folder_base+'/dataset_analysis/M220217_DW01/ACM/',
+#    folder_base+'/datasets_figures/20200205/arena_20200205_calibration_on/',
+    ])
+
+file_acm_list = list([
+    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/',
+    folder_base+'/datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
+    ])
+
+file_acmres_list = list([
+    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/results/M220217_DW01_20220309_173500_DWchecked_20220324-151437/',
+    folder_base+'/datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
+    ])
+
+file_skeleton_list = list([
+    folder_base+'/dataset_analysis/M220217_DW01/MRI/labels_m1_flip.npy',
+    folder_base+'/datasets_figures/required_files/20200205/mri_skeleton0_full.npy',
+    ])
+
+file_mri_list = list([
+    folder_base+'/dataset_analysis/M220217_DW01/MRI/mean_mri_data__01_flip.npy',
+    folder_base+'/datasets_figures/required_files/20200205/mri_data.npy',
+    ])
+
+color_index_list = list([1, 1, 0, 0, 2, 2])
+list_is_large_animal = list([0, 0, 0, 0, 1, 1])
+resolution_mri_list = [0.3, 0.4]
+
+folder_reconstruction = data.path+'/reconstruction'
+folder_save = folder_base + '/figures/figure1/panel_h_i/'
 
 mm_in_inch = 5.0/127.0
 plt.rcParams['font.family'] = 'Arial'
@@ -47,27 +82,7 @@ fontname = "Arial"
 markersize = 1
 
 #
-folder_reconstruction = data.path+'/reconstruction'
-folder_list = list([[folder_reconstruction+'/20200205/arena_20200205_calibration_on',
-                     folder_reconstruction+'/20200207/arena_20200207_calibration_on',
-                     folder_reconstruction+'/20210511_1/table_{:01d}_20210511_calibration'.format(1),
-                     folder_reconstruction+'/20210511_2/table_{:01d}_20210511_calibration__more'.format(2),
-                     folder_reconstruction+'/20210511_3/table_{:01d}_20210511_calibration'.format(3),
-                     folder_reconstruction+'/20210511_4/table_{:01d}_20210511_calibration__more'.format(4),]])
-color_index_list = list([1, 1, 0, 0, 2, 2])
-file_mri_list =  list(['/mri_data.npy',
-                       '/mri_data.npy',
-                       '/mri_{:01d}'.format(1) + '/mri_data.npy',
-                       '/mri_{:01d}'.format(2) + '/mri_data.npy',
-                       '/mri_{:01d}'.format(3) + '/mri_data.npy',
-                       '/mri_{:01d}'.format(4) + '/mri_data.npy'])
-file_skeleton_list = list(['/mri_skeleton0_full.npy',
-                           '/mri_skeleton0_full.npy',
-                           '/mri_{:01d}'.format(1) + '/mri_skeleton0_full.npy',
-                           '/mri_{:01d}'.format(2) + '/mri_skeleton0_full.npy',
-                           '/mri_{:01d}'.format(3) + '/mri_skeleton0_full.npy',
-                           '/mri_{:01d}'.format(4) + '/mri_skeleton0_full.npy'])
-list_is_large_animal = list([0, 0, 0, 0, 1, 1])
+
 
 cmap = plt.cm.viridis
 color_mri = cmap(2/3)
@@ -455,8 +470,8 @@ if __name__ == '__main__':
     ax81.spines["right"].set_visible(False)
     
     
-    for i_mode in range(np.size(folder_list, 0)):
-        mode = list(['on', 'off'])[i_mode]
+    for i_mode in range(1):
+        mode = 'on'#list(['on', 'off'])[i_mode]
         #
         bone_length0_all = list()
         bone_length1_all = list()
@@ -466,25 +481,41 @@ if __name__ == '__main__':
         joint_pos_error_all = list()
         bone_lengths_error_all = list()
         bone_angles_error_all = list()
-        for i_folder in range(len(folder_list[i_mode])):
-            folder = folder_list[i_mode][i_folder]
+        for i_folder in range(len(folder_list)):
+            folder = folder_list[i_folder]
+            folder_acmres = file_acmres_list[i_folder]
+            folder_acm = file_acm_list[i_folder]
 
             sys.path = list(np.copy(sys_path0))
-            sys.path.append(folder)
+            sys.path.append(folder_acm)
             importlib.reload(cfg)
             cfg.animal_is_large = list_is_large_animal[i_folder]
             importlib.reload(anatomy)
+            
             #
-            folder_reqFiles = data.path + '/required_files'
-            file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
-            file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
-            file_model = folder_reqFiles + '/model.npy'
-            file_labelsDLC = folder_reqFiles + '/labels_dlc_dummy.npy' # DLC labels are actually never needed here
-
-            file_mri = folder_reqFiles + '/' + cfg.date + '/' + file_mri_list[i_folder]
-            file_skeleton = folder_reqFiles + '/' + cfg.date + '/' + file_skeleton_list[i_folder]
+            
+            folder_reqFiles = data.path + '/datasets_figures/required_files'
+            file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy' # Backwards compatibiliy
+            if not os.path.isfile(file_origin_coord):
+                file_origin_coord = cfg.file_origin_coord
+            file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy' # Backwards compatibiliy
+            if not os.path.isfile(file_calibration):
+                file_calibration = cfg.file_calibration
+            file_model = folder_reqFiles + '/model.npy' # Backwards compatibiliy
+            if not os.path.isfile(file_model):
+                file_model = cfg.file_model
+            file_labelsDLC = folder_reqFiles + '/labels_dlc_dummy.npy' # DLC labels are actually never needed here  # Backwards compatibiliy
+            if not os.path.isfile(file_labelsDLC):
+                file_labelsDLC = cfg.file_labelsDLC
+            
+            # GET THE DATA FROM THE MRI SCAN
+       
+            resolution_mri = resolution_mri_list[i_folder]
+            
+            file_mri = file_mri_list[i_folder]
+            file_skeleton = file_skeleton_list[i_folder]
         
-            file_align = folder + '/x_align.npy'
+            file_align = folder + '/figures/figure1/panel_h_i/x_align.npy'
         
             file_ini = file_model
             model_ini = np.load(file_ini, allow_pickle=True).item()
@@ -501,7 +532,6 @@ if __name__ == '__main__':
             joint_order_new = args['model']['joint_order']
             skeleton_edges_new = args['model']['skeleton_edges'].numpy()
 
-            resolution_mri = 0.4 # resolution in mm
             marker_size = 3.0 # radius in mm (needs to be the same unit as the resolution)
             fac_remove_markers = 1.25 # simulates a somewhat bigger half spherical marker to remove the most of the intensity produced by the markers in the mri scan
             threshold_low = 50.0 # every voxel lower than this threshold is considered noise and set to zero when the marching cubes algorithm is used
@@ -982,8 +1012,8 @@ if __name__ == '__main__':
         #     bone_length_all = np.concatenate([bone_length0, bone_length1], 0)
             ax31.set_xticks(list([0.0, 2.5, 5.0]))
             ax31.set_yticks(list([0.0, 2.5, 5.0]))
-            ax31.set_xticklabels(list([0, 2.5, 5.0]), fontname=fontname, fontsize=fontsize)
-            ax31.set_yticklabels(list([0, 2.5, 5.0]), fontname=fontname, fontsize=fontsize)
+            ax31.set_xticklabels(list([0, 2.5, 5.0]), fontnam=fontname, fontsize=fontsize)
+            ax31.set_yticklabels(list([0, 2.5, 5.0]), fontnam=fontname, fontsize=fontsize)
             ax31.set_xlim([0.0, 5.0])
             ax31.set_ylim([0.0, 5.0])
             ax31.set_xlabel('true bone length (cm)', va='center', ha='center', fontname=fontname, fontsize=fontsize)

@@ -1,7 +1,7 @@
 import os
 
 # full path of the data folder for the figures
-path = os.path.abspath('/media/smb/soma-fs.ad01.caesar.de/bbo/projects/monsees-pose/datasets_figures/')
+path = os.path.abspath('/media/smb/soma-fs.ad01.caesar.de/bbo/projects/monsees-pose/')
 
 # full path of the ccv-file used for Figure 1
 path_ccv_fig1 = '/media/server/bulk/pose_B.EG.2.11/20200205_arena/cam3_arena.ccv'

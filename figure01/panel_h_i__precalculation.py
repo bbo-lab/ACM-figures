@@ -27,30 +27,30 @@ import model
 sys_path0 = np.copy(sys.path)
 
 verbose = True
-save = False
+save = True
 
-folder_base = data.path+'/../dataset_analysis/'
+folder_base = data.path
 folder_list = list([
-    folder_base+'/M220217_DW01/ACM/',
-    folder_base+'/20200205/arena_20200205_calibration_on/',
+    folder_base+'/dataset_analysis/M220217_DW01/ACM/',
+    folder_base+'/datasets_figures/20200205/arena_20200205_calibration_on/',
     ])
 
 file_acm_list = list([
-    folder_base+'/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/',
-    folder_base+'/../datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
+    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/',
+    folder_base+'/datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
     ])
 
 file_acmres_list = list([
-    folder_base+'/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/results/M220217_DW01_20220309_173500_DWchecked_20220314-221557/',
-    folder_base+'/../datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
+    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/results/M220217_DW01_20220309_173500_DWchecked_20220324-151437/',
+    folder_base+'/datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
     ])
 
-file_mri_list = list([
-    folder_base+'/M220217_DW01/MRI/labels_m1.npy',
-    folder_base+'/../datasets_figures/required_files/20200205/mri_skeleton0_full.npy',
+file_skeleton_list = list([
+    folder_base+'/dataset_analysis/M220217_DW01/MRI/labels_m1_flip.npy',
+    folder_base+'/datasets_figures/required_files/20200205/mri_skeleton0_full.npy',
     ])
 
-resolution_mri_list = [0.2 0.4]
+resolution_mri_list = [0.3, 0.4]
 list_is_large_animal = list([0, 0])
 
 # MATH
@@ -408,7 +408,7 @@ if __name__ == "__main__":
         cfg.animal_is_large = list_is_large_animal[i_folder]
         importlib.reload(anatomy)
         #
-        folder_reqFiles = data.path + '/required_files'
+        folder_reqFiles = data.path + '/datasets_figures/required_files'
         file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy' # Backwards compatibiliy
         if not os.path.isfile(file_origin_coord):
             file_origin_coord = cfg.file_origin_coord
@@ -423,7 +423,7 @@ if __name__ == "__main__":
             file_labelsDLC = cfg.file_labelsDLC
         
         # GET THE DATA FROM THE MRI SCAN
-        file_mri = file_mri_list[i_folder]
+        file_mri = file_skeleton_list[i_folder]
     
         resolution_mri = resolution_mri_list[i_folder]
         joint_start = 'joint_head_001'
@@ -558,7 +558,7 @@ if __name__ == "__main__":
         # save
         if save:
             savefolder = folder + '/figures/figure1/panel_h_i/'
-            os.makedirs(savefolder)
+            os.makedirs(savefolder,exist_ok=True)
             np.save(savefolder + '/x_align.npy', x_align)
             print('Saved aligned 3D model ({:s})'.format(savefolder + '/x_align.npy'))
             print()
