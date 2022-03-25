@@ -25,8 +25,8 @@ import anatomy
 import model
 sys_path0 = np.copy(sys.path)
 
-save = True
-save_all = True
+save = False
+save_all = False
 verbose = True
 
 folder_base = data.path
@@ -276,6 +276,7 @@ def perform_marching_cubes(file_mri_data,
     threshold = 0.5
     
     # Use marching cubes to obtain the surface mesh
+    print(1)
     surface_vertices, faces, normals, values = measure.marching_cubes_lewiner(binary_image_use2,
                                                                    level=threshold,
                                                                    spacing=(resolution, resolution, resolution),
@@ -284,7 +285,7 @@ def perform_marching_cubes(file_mri_data,
                                                                    allow_degenerate=True,
                                                                    use_classic=False)
     surface_triangles = [tuple(faces[i]) for i in range(len(faces))]
-    
+    print(2)
     return surface_vertices, surface_triangles
 
 def extract_mri_labeling(file_mri_labeling, resolution, joint_name_start):
@@ -546,6 +547,7 @@ if __name__ == '__main__':
                                        threshold_low,
                                        markers_mri)
             #
+            print(3)
             nBones = int(np.shape(skeleton_edges_mri)[0])
             nMarkers = int(np.size(list(markers_mri.keys())) / 2)
             markers0 = np.zeros((nMarkers, 3), dtype=np.float64)
@@ -581,6 +583,7 @@ if __name__ == '__main__':
 
         #     mlab.options.offscreen = True
             # PLOT
+            print(4)
             fig = mlab.figure(1,
                               size=(1080, 1080),
                               bgcolor=(1, 1, 1))
@@ -588,15 +591,17 @@ if __name__ == '__main__':
         #                       size=(10240, 10240),
         #                       bgcolor=(1, 1, 1))
             mlab.clf()
-            plot_model_3d(fig,
-                          skeleton_edges0, skeleton_vertices0,
-                          surface_triangles0, surface_vertices0,
-                          color=color_mri[:3])
-            plot_model_3d(fig,
-                          skeleton_edges_new, skeleton_vertices_new,
-                          None, None,
-                          color=color_fit[:3])
-
+            print(5)
+            #plot_model_3d(fig,
+                          #skeleton_edges0, skeleton_vertices0,
+                          #surface_triangles0, surface_vertices0,
+                          #color=color_mri[:3])
+            print(6)
+            #plot_model_3d(fig,
+                          #skeleton_edges_new, skeleton_vertices_new,
+                          #None, None,
+                          #color=color_fit[:3])
+            print(7)
             # scalebar
             scalebar_location_start = np.array([2.5, 0.0, 1.0], dtype=np.float64)
             scalebar_location_end = np.array([2.5, 4.0, 1.0], dtype=np.float64)
@@ -621,23 +626,25 @@ if __name__ == '__main__':
                                         scale=0.5)
 
             fig.scene.parallel_projection = True
-
+            print(8)
             mlab.view(figure=fig,
                       azimuth=90,
                       elevation=0,
                       distance=25,
                       focalpoint=np.mean(joints0, 0))
+            print(9)
             if save:
                 save_fig3d(folder+'/model_aligned_xy.svg', fig, True)
-
+            print(10)
             mlab.view(figure=fig,
                       azimuth=0,
                       elevation=-90,
                       distance=25,
                       focalpoint=np.mean(joints0, 0))
+            print(11)
             if save:
                 save_fig3d(folder+'/model_aligned_xz.svg', fig, True)
-
+            print(12)
         #     mlab.show()
 
 
@@ -1012,8 +1019,8 @@ if __name__ == '__main__':
         #     bone_length_all = np.concatenate([bone_length0, bone_length1], 0)
             ax31.set_xticks(list([0.0, 2.5, 5.0]))
             ax31.set_yticks(list([0.0, 2.5, 5.0]))
-            ax31.set_xticklabels(list([0, 2.5, 5.0]), fontnam=fontname, fontsize=fontsize)
-            ax31.set_yticklabels(list([0, 2.5, 5.0]), fontnam=fontname, fontsize=fontsize)
+            ax31.set_xticklabels(list([0, 2.5, 5.0]), fontname=fontname, fontsize=fontsize)
+            ax31.set_yticklabels(list([0, 2.5, 5.0]), fontname=fontname, fontsize=fontsize)
             ax31.set_xlim([0.0, 5.0])
             ax31.set_ylim([0.0, 5.0])
             ax31.set_xlabel('true bone length (cm)', va='center', ha='center', fontname=fontname, fontsize=fontsize)
@@ -1394,7 +1401,7 @@ if __name__ == '__main__':
     print('{:0.2f} deg to {:0.2f} deg'.format(np.min(np.array(bone_angles0_all, dtype=np.float64)*180.0/np.pi),
                                               np.max(np.array(bone_angles0_all, dtype=np.float64)*180.0/np.pi)))
     print()    
-    
+    print(13)
     if save_all:
         fig31.savefig(folder_save+'/align_unity__bone_length.svg',
 #                      bbox_inches="tight",
@@ -1414,7 +1421,7 @@ if __name__ == '__main__':
                  transparent=True,
                  format='svg',
                  pad_inches=0)    
-
+    print(14)
         
         
         
@@ -1478,6 +1485,7 @@ if __name__ == '__main__':
 #                      dpi=300,
 #                      transparent=True,
 #                      format='svg')   
-
+    print(14)
     if (verbose):
         plt.show()
+    print(15)
