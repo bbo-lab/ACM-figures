@@ -419,7 +419,7 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
     return
 
 if __name__ == '__main__':
-    folder_reqFiles = data.path + '/required_files' 
+    folder_reqFiles = data.path + '/datasets_figures/required_files' 
 
     date = '20200207' # '20200207' or '20200205'
     folder_save = os.path.abspath('panels') + '/mri/' + date
