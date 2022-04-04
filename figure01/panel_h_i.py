@@ -32,26 +32,31 @@ verbose = True
 folder_base = data.path
 folder_list = list([
     folder_base+'/dataset_analysis/M220217_DW01/ACM/',
+    folder_base+'/dataset_analysis/M220217_DW03/ACM/',
     folder_base+'/datasets_figures/20200205/arena_20200205_calibration_on/',
     ])
 
 file_acm_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/',
+    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220401-155200/',
+    folder_base+'/dataset_analysis/M220217_DW03/ACM/M220217_DW03_20220401_205600/',
     folder_base+'/datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
     ])
 
 file_acmres_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked/results/M220217_DW01_20220309_173500_DWchecked_20220324-151437/',
+    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220401-155200/results/M220217_DW01_20220401-155200_20220401-155411',
+    folder_base+'/dataset_analysis/M220217_DW03/ACM/M220217_DW03_20220401_205600/results/M220217_DW03_20220401_205600_20220403-170909',
     folder_base+'/datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
     ])
 
 file_skeleton_list = list([
     folder_base+'/dataset_analysis/M220217_DW01/MRI/labels_m1_flip.npy',
+    folder_base+'/dataset_analysis/M220217_DW03/MRI/labels_m3_base.npy',
     folder_base+'/datasets_figures/required_files/20200205/mri_skeleton0_full.npy',
     ])
 
 file_mri_list = list([
     folder_base+'/dataset_analysis/M220217_DW01/MRI/mean_mri_data__01_flip.npy',
+    folder_base+'/dataset_analysis/M220217_DW03/MRI/mean_mri_data__01_flip.npy', #Yes, 01 is correct for mouse 3.
     folder_base+'/datasets_figures/required_files/20200205/mri_data.npy',
     ])
 

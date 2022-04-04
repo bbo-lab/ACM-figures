@@ -47,6 +47,7 @@ if __name__ == '__main__':
                       vmin=0, vmax=95)
     
     i_img_list = np.arange(i_img_start, i_img_start+dFrame*nFrames, dFrame, dtype=np.int64)
+    print(i_img_list)
     for i_img in i_img_list:
         if not(file_ccv == ''):
             img = ccv.get_frame(file_ccv, i_img+1).astype(np.float64)
