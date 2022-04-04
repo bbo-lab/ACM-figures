@@ -8,8 +8,8 @@ import sys
 sys.path.append(os.path.abspath('../ACM'))
 import data
 
-save = False
-verbose = True
+save = True
+verbose = True # WARNING: Script reuses figure. Needs to be saved to be able to see relevant figures.
 
 mm_in_inch = 5.0/127.0
 plt.rcParams['font.family'] = 'Arial'
@@ -24,19 +24,19 @@ linewidth_bone = 0.5
 markersize_joint = 1.0
 fontname = "Arial"
 
-def draw_mri2d(file_mri, file_skeleton, folder_save):
+def draw_mri2d(file_mri, file_skeleton, mri_resolution, folder_save):
+    print(file_mri)
     markers_dict = np.load(file_skeleton, allow_pickle=True).item()
     links = markers_dict['links']
     joints = markers_dict['joints']    
     nBones = len(links.keys())
     nJoints = nBones + 1
     
-    
     mri_data = np.load(file_mri, allow_pickle=True)
     mri_data = mri_data - np.nanmin(mri_data)
     mri_data = mri_data / np.nanmax(mri_data)
-    
-    
+
+
     mri_data_use = np.zeros((403, 938, 208), dtype=np.float64)
     mri_data_use_shape = np.shape(mri_data_use)
     #
@@ -78,7 +78,7 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
     mri_data_xy_shape = np.shape(mri_data_xy)
     ratio1 = mri_data_xz_shape[1] / mri_data_xz_shape[0]
     ratio2 = mri_data_xy_shape[0] / mri_data_xy_shape[1]
-    
+
     ratio_inkscape = 1.275
         
     fig_w = np.round(mm_in_inch * 86.0*2.0/3.0 * ratio_inkscape, decimals=2)
@@ -111,7 +111,7 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
     ax = list([ax1, ax2])
     #
     plt.show(block=False)
-    im0 = ax[0].imshow(mri_data_xz_T,
+    im0 = ax[0].imshow(mri_data_xz.T,
                  cmap='gray_r',
                  vmin=0.0,
                  vmax=1.0,
@@ -121,11 +121,11 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
                  vmin=0.0,
                  vmax=1.0,
                  aspect=1)
-    
+
     scalebar_dxyz = 50
     scalebar_text_dxyz = 30
     scalebar_pixel_length = 125
-    resolution = 0.4 * 1e-1 # cm
+    resolution = mri_resolution * 1e-1 # cm
     scalebar_length = scalebar_pixel_length * resolution
     #
     scalebar_xz = ax[0].plot(np.array([scalebar_dxyz, scalebar_dxyz+scalebar_pixel_length], dtype=np.float64),
@@ -165,6 +165,7 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
     h_joints21 = list()
     h_joints22 = list()
     #
+
     black_white_line_fac = 1.5
     black_white_marker_fac = 1.5
     #
@@ -262,7 +263,7 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
     ax[0].get_yaxis().set_visible(False)
     ax[1].get_xaxis().set_visible(False)
     ax[1].get_yaxis().set_visible(False)
-    
+
     dxz = 32
     dxy = 32
     joint_name_inset1 = 'joint_spine_010'
@@ -281,6 +282,7 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
                        [joint_inset2[0]-dxy, joint_inset2[1]-dxy],
                        [joint_inset2[0]-dxy, joint_inset2[1]+dxy],
                        [joint_inset2[0]+dxy, joint_inset2[1]+dxy]], dtype=np.float64)
+
     h_isnet1 = ax[0].plot(inset1[:, 0], inset1[:, 1],
                           linestyle='--',
                           marker='',
@@ -300,13 +302,13 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
     if save:
         fig[0].savefig(folder_save + '/mri2d_xz_0.svg',
 #                        bbox_inches=0,
-                       dpi=300,
+                       dpi=1200,
                        transparent=True,
                        format='svg',
                        pad_inches=0) 
         fig[1].savefig(folder_save + '/mri2d_xy_0.svg',
 #                        bbox_inches=0,
-                       dpi=300,
+                       dpi=1200,
                        transparent=True,
                        format='svg',
                        pad_inches=0)
@@ -362,8 +364,8 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
             mri_data_xy = mri_data_xy / np.nanmax(mri_data_xy[joint_pos_x-dxz:joint_pos_x+dxz, joint_pos_y-dxz:joint_pos_y+dxz])
             mri_data_xz = mri_data_xz - np.nanmin(mri_data_xz[joint_pos_y-dxz:joint_pos_y+dxz, joint_pos_z-dxz:joint_pos_z+dxz])
             mri_data_xz = mri_data_xz / np.nanmax(mri_data_xz[joint_pos_y-dxz:joint_pos_y+dxz, joint_pos_z-dxz:joint_pos_z+dxz])
-            mri_data_xz_T = mri_data_xz.T
-            im0.set_array(mri_data_xz_T)
+
+            im0.set_array(mri_data_xz.T)
             im1.set_array(mri_data_xy)
     
             ax[0].set_xlim([joint_pos_xz[0]-dxz, joint_pos_xz[0]+dxz])
@@ -406,13 +408,13 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
             if save:
                 fig[0].savefig(folder_save + '/mri2d_xz__{:s}_0.svg'.format(joint_name),
                                bbox_inches=0,
-                               dpi=300,
+                               dpi=1200,
                                transparent=True,
                                format='svg',
                                pad_inches=0)
                 fig[1].savefig(folder_save + '/mri2d_xy__{:s}_0.svg'.format(joint_name),
                                bbox_inches=0,
-                               dpi=300,
+                               dpi=1200,
                                transparent=True,
                                format='svg',
                                pad_inches=0)
@@ -421,37 +423,58 @@ def draw_mri2d(file_mri, file_skeleton, folder_save):
 if __name__ == '__main__':
     folder_reqFiles = data.path + '/datasets_figures/required_files' 
 
+    animal = 'M220217_DW03_20220217'
+    folder_save = data.path+"/dataset_analysis/M220217_DW03/MRI/panels"
+    os.makedirs(folder_save,exist_ok=True)
+    file_mri = data.path+"/dataset_analysis/M220217_DW03/MRI/mean_mri_data__01_flip.npy"
+    file_skeleton = data.path+"/dataset_analysis/M220217_DW03/MRI/labels_m3_base.npy"
+    mri_resolution = 0.3
+    draw_mri2d(file_mri, file_skeleton, mri_resolution, folder_save)
+    if verbose:
+        plt.show(block=True)
+
+    animal = 'M220217_DW01_20220217'
+    folder_save = data.path+"/dataset_analysis/M220217_DW01/MRI/panels"
+    os.makedirs(folder_save,exist_ok=True)
+    file_mri = "/home/voit/tmp"+"/dataset_analysis/M220217_DW01/MRI/mean_mri_data__01_flip.npy"
+    file_skeleton = "/home/voit/tmp"+"/dataset_analysis/M220217_DW01/MRI/labels_m1_flip.npy"
+    mri_resolution = 0.3
+    draw_mri2d(file_mri, file_skeleton, mri_resolution, folder_save)
+    if verbose:
+        plt.show(block=True)
+
+
+    exit()
+    #
     date = '20200207' # '20200207' or '20200205'
     folder_save = os.path.abspath('panels') + '/mri/' + date
     file_mri = folder_reqFiles+'/'+date+'/mri_data.npy'
     file_skeleton = folder_reqFiles+'/'+date+'/mri_skeleton0_full.npy'
-    draw_mri2d(file_mri, file_skeleton, folder_save)
+    mri_resolution = 0.4
+    draw_mri2d(file_mri, file_skeleton, mri_resolution, folder_save)
     if verbose:
-        plt.show(block=False)
-        print('Press any key to continue')
-        input()
+        plt.show(block=True)
     #
     date = '20210511_1' # '20210511_1' or '20210511_2' or '20210511_3' or '20210511_4'
     folder_save = os.path.abspath('panels') + '/mri/' + date
     animal_id = date.split('_')[-1]
     file_mri = folder_reqFiles+'/'+date.split('_')[0]+'/'+'mri_'+animal_id+'/mri_data.npy'
     file_skeleton = folder_reqFiles+'/'+date.split('_')[0]+'/'+'mri_'+animal_id+'/mri_skeleton0_full.npy'
-    draw_mri2d(file_mri, file_skeleton, folder_save)
+    mri_resolution = 0.4
+    draw_mri2d(file_mri, file_skeleton, mri_resolution, folder_save)
     if verbose:
-        plt.show(block=False)
-        print('Press any key to continue')
-        input()
+        plt.show(block=True)
     #
     date = '20210511_3' # '20210511_1' or '20210511_2' or '20210511_3' or '20210511_4'
     folder_save = os.path.abspath('panels') + '/mri/' + date
     animal_id = date.split('_')[-1]
     file_mri = folder_reqFiles+'/'+date.split('_')[0]+'/'+'mri_'+animal_id+'/mri_data.npy'
     file_skeleton = folder_reqFiles+'/'+date.split('_')[0]+'/'+'mri_'+animal_id+'/mri_skeleton0_full.npy'
-    draw_mri2d(file_mri, file_skeleton, folder_save)
+    mri_resolution = 0.4
+    draw_mri2d(file_mri, file_skeleton, mri_resolution, folder_save)
     if verbose:
-        plt.show(block=False)
-        print('Press any key to continue')
-        input()
-    #
+        plt.show(block=True)
+    ##
+
     if verbose:
         plt.show()

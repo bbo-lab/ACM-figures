@@ -27,13 +27,13 @@ import kalman
 import model
 sys_path0 = np.copy(sys.path)
 
-save = False
+save = True
 save_leg = False
 verbose = True
 
 mode = 'mode4' # 'mode4' or 'mode1' change to the latter to generate plots for naive skeleton model
 
-folder_save = folder_save = os.path.abspath('panels') + '/trace/' + mode
+folder_save = os.path.abspath('panels') + '/trace/' + mode
 
 if (mode == 'mode4'):
     add2folder = '__pcutoff9e-01'
@@ -42,7 +42,7 @@ elif (mode == 'mode1'):
 else:
     raise
 
-folder_recon = data.path + '/reconstruction' 
+folder_recon = data.path + '/datasets_figures/reconstruction'
 folder_list = list(['/20200205/arena_20200205_033300_033500', # 0 # 20200205
                     '/20200205/arena_20200205_034400_034650', # 1
                     '/20200205/arena_20200205_038400_039000', # 2
@@ -70,20 +70,45 @@ folder_list = list(['/20200205/arena_20200205_033300_033500', # 0 # 20200205
                     '/20200207/arena_20200207_059450_059950', # 24
                     '/20200207/arena_20200207_060400_060800', # 25
                     '/20200207/arena_20200207_061000_062100', # 26
-                    '/20200207/arena_20200207_064100_064400',]) # 27
-folder_list = list([folder_recon + i + add2folder for i in folder_list])
+                    '/20200207/arena_20200207_064100_064400', # 27
+                    '/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked_full/results/M220217_DW01_20220309_173500_DWchecked_full_20220331-134332', # 28
+                    ])
+folder_list[0:28] = list([folder_recon + i + add2folder for i in folder_list[0:28]])
+folder_list[28:] = list([data.path + '/' + i for i in folder_list[28:]])
 
+project_folder_list = folder_list.copy()
+project_folder_list[28:] = [ i + '/../../' for i in folder_list[28:] ]
+
+frame_range = [None for i in folder_list]
+frame_range[28] = [16600, 16850]
+
+dataset_to_use = 28
 # 14
-folder = folder_list[14]
+folder = folder_list[dataset_to_use]
 #
-sys.path.append(folder)
+print(project_folder_list[dataset_to_use])
+sys.path.append(project_folder_list[dataset_to_use])
 importlib.reload(cfg)
 cfg.animal_is_large = 0
 importlib.reload(anatomy)
-#
-frame_start = cfg.index_frame_start + 130
-frame_end = frame_start + 120
 
+assert cfg.dt, "Frameskip not supported!"
+#
+
+if frame_range[dataset_to_use] is None:
+    frame_start = cfg.index_frame_start + 130
+    frame_end = frame_start + 120
+else:
+    frame_start = frame_range[dataset_to_use][0]
+    frame_end = frame_range[dataset_to_use][1]
+
+#frame_start = cfg.index_frame_start + 130
+#frame_end = frame_start + 120
+print(f"{frame_start} {frame_end}")
+
+folder_save = f"{os.path.abspath('panels')}/trace/{mode}/{folder.split('/')[-1]}_{frame_start:06d}-{frame_end:06d}"
+os.makedirs(folder_save,exist_ok=True)
+print(f"folder_save {folder_save}")
     
 axis = 0
 threshold = 25.0 # cm/s
@@ -164,12 +189,22 @@ if __name__ == '__main__':
     mu_uks = mu_uks[frame_start-cfg.index_frame_ini:frame_end-cfg.index_frame_ini]
     var_uks = var_uks[frame_start-cfg.index_frame_ini:frame_end-cfg.index_frame_ini]
     #
-    folder_reqFiles = data.path + '/required_files' 
-    file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
-    file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
-    file_model = folder_reqFiles + '/model.npy'
-    file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + cfg.file_labelsDLC.split('/')[-1]
-    
+
+    folder_reqFiles = data.path + '/datasets_figures/required_files'
+
+    file_origin_coord = cfg.file_origin_coord
+    if not os.path.isfile(file_origin_coord):
+        file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
+    file_calibration = cfg.file_calibration
+    if not os.path.isfile(file_calibration):
+        file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
+    file_model = cfg.file_model
+    if not os.path.isfile(file_model):
+        file_model = folder_reqFiles + '/model.npy'
+    file_labelsDLC = cfg.file_labelsDLC
+    if not os.path.isfile(file_labelsDLC):
+        file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + cfg.file_labelsDLC.split('/')[-1]
+
     args_model = helper.get_arguments(file_origin_coord, file_calibration, file_model, file_labelsDLC,
                                       cfg.scale_factor, cfg.pcutoff)
     
@@ -650,7 +685,8 @@ if __name__ == '__main__':
                       [ax3, ax30, ax300, angle_mean, angle_std],
                       [ax4, ax40, ax400, angle_velocity_mean, angle_velocity_std],])
     index_start = int(15)
-    index_end = index_start + 60
+    print(cfg.frame_rate)
+    index_end = index_start + int(0.6*cfg.frame_rate)
     for i_item in range(4):
         print('metric: #{:01d}'.format(i_item+1))
         item = item_list[i_item]
@@ -666,6 +702,7 @@ if __name__ == '__main__':
             y_use = y[i] - np.mean(y[i][~np.isnan(y[i])])
             ax_use.plot(time[index_start:index_end], y_use[index_start:index_end],
                         color=colors_paws[i], linewidth=linewidth, zorder=1)
+
         for i in range(4):
             y_use = y[i] - np.mean(y[i][~np.isnan(y[i])])
             y_std_use = y_std[i]
@@ -749,8 +786,9 @@ if __name__ == '__main__':
         h_legend = ax_use.legend(paws_joint_names_legend, loc='upper right', fontsize=fontsize, frameon=False)
         for text in h_legend.get_texts():
             text.set_fontname(fontname)
+        print(f"{[time[index_start], time[index_end-1]]} - {len(time)} - {index_start} - {index_end}")
         ax_use.set_xlim([time[index_start], time[index_end-1]])
-        ax_use.set_axis_off()
+        #ax_use.set_axis_off()
         #
         ax_use2.set_xlabel('time (ms)', va='bottom', ha='center', fontsize=fontsize, fontname=fontname)
         ax_use2.set_ylabel('auto-correlation', va='top', ha='center', fontsize=fontsize, fontname=fontname)
@@ -787,7 +825,7 @@ if __name__ == '__main__':
     ax300.yaxis.set_label_coords(x=left_margin_x/fig300_w, y=ax300_y+0.5*ax300_h, transform=fig300.transFigure)
     ax400.xaxis.set_label_coords(x=ax400_x+0.5*ax400_w, y=bottom_margin_x/fig400_h, transform=fig400.transFigure)
     ax400.yaxis.set_label_coords(x=left_margin_x/fig400_w, y=ax400_y+0.5*ax400_h, transform=fig400.transFigure)
-    #
+
     ax1.set_ylim([-2.564, 3.589])
     ax2.set_ylim([-186.4, 263.8])
     ax3.set_ylim([-76.56, 51.62])

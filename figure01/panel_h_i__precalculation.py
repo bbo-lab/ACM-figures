@@ -402,6 +402,7 @@ if __name__ == "__main__":
         folder_acm = file_acm_list[i_folder]
 
         sys.path = list(np.copy(sys_path0))
+        print(folder_acm)
         sys.path.append(folder_acm)
 
         importlib.reload(cfg)
