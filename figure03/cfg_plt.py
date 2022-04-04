@@ -37,5 +37,5 @@ def plot_coord_ax(ax,
             fontsize=fontsize, fontname=fontname, ha='center', va='top', rotation='horizontal')
     ax.text(offset_x+offset_y_text, offset_y + len_y/2.0, '{:s}'.format(label_y),
             fontsize=fontsize, fontname=fontname, ha='right', va='center', rotation='vertical')
-    ax.set_axis_off()
+    #ax.set_axis_off()
     return
