@@ -25,44 +25,69 @@ import anatomy
 import model
 sys_path0 = np.copy(sys.path)
 
-save = False
-save_all = False
+save = True
+save_all = True
 verbose = True
 
 folder_base = data.path
 folder_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/ACM/',
-    folder_base+'/dataset_analysis/M220217_DW03/ACM/',
-    folder_base+'/datasets_figures/20200205/arena_20200205_calibration_on/',
+    folder_base+'/dataset_analysis/M220217_DW01/20220217/ACM/',
+    folder_base+'/dataset_analysis/M220217_DW03/20220217/ACM/',
+    folder_base+'/datasets_figures/figures/20200205/arena_20200205_calibration_on/',
+    folder_base+'/datasets_figures/figures/20200207/arena_20200207_calibration_on',
+    folder_base+'/datasets_figures/figures/20210511_1/table_{:01d}_20210511_calibration'.format(1),
+    folder_base+'/datasets_figures/figures/20210511_2/table_{:01d}_20210511_calibration__more'.format(2),
+    folder_base+'/datasets_figures/figures/20210511_3/table_{:01d}_20210511_calibration'.format(3),
+    folder_base+'/datasets_figures/figures/20210511_4/table_{:01d}_20210511_calibration__more'.format(4),
     ])
 
 file_acm_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220401-155200/',
-    folder_base+'/dataset_analysis/M220217_DW03/ACM/M220217_DW03_20220401_205600/',
+    folder_base+'/dataset_analysis/M220217_DW01/20220217/ACM/M220217_DW01/',
+    folder_base+'/dataset_analysis/M220217_DW03/20220217/ACM/M220217_DW03/',
     folder_base+'/datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
+    folder_base+'/datasets_figures/reconstruction/20200207/arena_20200207_calibration_on',
+    folder_base+'/datasets_figures/reconstruction/20210511_1/table_{:01d}_20210511_calibration'.format(1),
+    folder_base+'/datasets_figures/reconstruction/20210511_2/table_{:01d}_20210511_calibration__more'.format(2),
+    folder_base+'/datasets_figures/reconstruction/20210511_3/table_{:01d}_20210511_calibration'.format(3),
+    folder_base+'/datasets_figures/reconstruction/20210511_4/table_{:01d}_20210511_calibration__more'.format(4),
     ])
 
 file_acmres_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220401-155200/results/M220217_DW01_20220401-155200_20220401-155411',
-    folder_base+'/dataset_analysis/M220217_DW03/ACM/M220217_DW03_20220401_205600/results/M220217_DW03_20220401_205600_20220403-170909',
+    folder_base+'/dataset_analysis/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220401-155200_20220401-155411/',
+    folder_base+'/dataset_analysis/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_20220405-184123/',
     folder_base+'/datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
+    folder_base+'/datasets_figures/reconstruction/20200207/arena_20200207_calibration_on/',
+    folder_base+'/datasets_figures/reconstruction/20210511_1/table_{:01d}_20210511_calibration/'.format(1),
+    folder_base+'/datasets_figures/reconstruction/20210511_2/table_{:01d}_20210511_calibration__more/'.format(2),
+    folder_base+'/datasets_figures/reconstruction/20210511_3/table_{:01d}_20210511_calibration/'.format(3),
+    folder_base+'/datasets_figures/reconstruction/20210511_4/table_{:01d}_20210511_calibration__more/'.format(4),
     ])
 
 file_skeleton_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/MRI/labels_m1_flip.npy',
-    folder_base+'/dataset_analysis/M220217_DW03/MRI/labels_m3_base.npy',
+    folder_base+'/dataset_analysis/M220217_DW01/20220217/MRI/labels_m1_flip.npy',
+    folder_base+'/dataset_analysis/M220217_DW03/20220217/MRI/labels_m3_base.npy',
     folder_base+'/datasets_figures/required_files/20200205/mri_skeleton0_full.npy',
+    folder_base+'/datasets_figures/required_files/20200207/mri_skeleton0_full.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(1) + '/mri_skeleton0_full.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(2) + '/mri_skeleton0_full.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(3) + '/mri_skeleton0_full.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(4) + '/mri_skeleton0_full.npy'
     ])
 
 file_mri_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/MRI/mean_mri_data__01_flip.npy',
-    folder_base+'/dataset_analysis/M220217_DW03/MRI/mean_mri_data__01_flip.npy', #Yes, 01 is correct for mouse 3.
+    folder_base+'/dataset_analysis/M220217_DW01/20220217/MRI/mean_mri_data__01_flip.npy',
+    folder_base+'/dataset_analysis/M220217_DW03/20220217/MRI/mean_mri_data__01_flip.npy', #Yes, 01 is correct for mouse 3.
     folder_base+'/datasets_figures/required_files/20200205/mri_data.npy',
+    folder_base+'/datasets_figures/required_files/20200207/mri_data.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(1) + '/mri_data.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(2) + '/mri_data.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(3) + '/mri_data.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(4) + '/mri_data.npy'
     ])
 
-color_index_list = list([0,1, 2])
-list_is_large_animal = list([0, 0, 0])
-resolution_mri_list = [0.3, 0.3, 0.4]
+color_index_list = list([3,3,1, 1, 0, 0, 2, 2])
+resolution_mri_list = [0.3, 0.3, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4]
+list_is_large_animal = list([0, 0, 0, 0, 0, 0, 1, 1])
 
 folder_reconstruction = data.path+'/reconstruction'
 folder_save = folder_base + '/figures/figure1/panel_h_i/'
@@ -96,8 +121,9 @@ cmap2 = plt.cm.tab10
 color_animal_size1 = cmap2(0/9)
 color_animal_size2 = cmap2(1/9)
 color_animal_size3 = cmap2(2/9)
+color_animal_size4 = cmap2(3/9)
 color_error = 'gray'
-color_animals = list([color_animal_size1, color_animal_size2, color_animal_size3])
+color_animals = list([color_animal_size1, color_animal_size2, color_animal_size3, color_animal_size4])
 
 skeleton3d_scale_factor = 1/3
 color_skel = (0.5, 0.5, 0.5)
@@ -146,7 +172,7 @@ def save_fig3d(file, fig, bool_legend=False):
                                  linewidth=linewidth3d,
                                  label='Fit')
         h_legend = list([legend_0, legend_fit])
-        ax0.legend(handles=h_legend, loc='upper left', fontname=fontname, fontsize=fontsize, frameon=False)
+        ax0.legend(handles=h_legend, loc='upper left', frameon=False)
 
     #
 #     fig0.tight_layout()
@@ -586,71 +612,71 @@ if __name__ == '__main__':
             surface_vertices0 = surf_verts0
             marker_positions0 = markers0
 
-        #     mlab.options.offscreen = True
-            # PLOT
-            print(4)
-            fig = mlab.figure(1,
-                              size=(1080, 1080),
-                              bgcolor=(1, 1, 1))
-        #     fig = mlab.figure(1,
-        #                       size=(10240, 10240),
-        #                       bgcolor=(1, 1, 1))
-            mlab.clf()
-            print(5)
+            #mlab.options.offscreen = True
+            #PLOT
+            #print(4)
+            #fig = mlab.figure(1,
+                              #size=(1080, 1080),
+                              #bgcolor=(1, 1, 1))
+            #fig = mlab.figure(1,
+                              #size=(10240, 10240),
+                              #bgcolor=(1, 1, 1))
+            #mlab.clf()
+            #print(5)
             #plot_model_3d(fig,
                           #skeleton_edges0, skeleton_vertices0,
                           #surface_triangles0, surface_vertices0,
                           #color=color_mri[:3])
-            print(6)
+            #print(6)
             #plot_model_3d(fig,
                           #skeleton_edges_new, skeleton_vertices_new,
                           #None, None,
                           #color=color_fit[:3])
-            print(7)
-            # scalebar
-            scalebar_location_start = np.array([2.5, 0.0, 1.0], dtype=np.float64)
-            scalebar_location_end = np.array([2.5, 4.0, 1.0], dtype=np.float64)
-            scalebar = mlab.plot3d(np.array([scalebar_location_start[0], scalebar_location_end[0]], dtype=np.float64),
-                                   np.array([scalebar_location_start[1], scalebar_location_end[1]], dtype=np.float64),
-                                   np.array([scalebar_location_start[2], scalebar_location_end[2]], dtype=np.float64),
-                                   color=(0.0, 0.0, 0.0),
-                                   figure=fig,
-                                   line_width=bones3d_line_width,
-                                   tube_radius=bones3d_tube_radius,
-                                   tube_sides=bones3d_tube_sides)
-        #     scalebar_text_location = scalebar_location_start + (scalebar_location_end - scalebar_location_start) / 2.0
-            scalebar_text_location = scalebar_location_end + np.array([0.5, -0.75, 0.5], dtype=np.float)
-            scalebar_length = np.sqrt(np.sum((scalebar_location_end - scalebar_location_start)**2))
-            scalebar_text = mlab.text3d(scalebar_text_location[0],
-                                        scalebar_text_location[1],
-                                        scalebar_text_location[2],
-                                        '{:0.1f} cm'.format(scalebar_length),
-                                        figure=fig,
-                                        color=(0.0, 0.0, 0.0),
-                                        line_width=1.0,
-                                        scale=0.5)
+            #print(7)
+            #scalebar
+            #scalebar_location_start = np.array([2.5, 0.0, 1.0], dtype=np.float64)
+            #scalebar_location_end = np.array([2.5, 4.0, 1.0], dtype=np.float64)
+            #scalebar = mlab.plot3d(np.array([scalebar_location_start[0], scalebar_location_end[0]], dtype=np.float64),
+                                   #np.array([scalebar_location_start[1], scalebar_location_end[1]], dtype=np.float64),
+                                   #np.array([scalebar_location_start[2], scalebar_location_end[2]], dtype=np.float64),
+                                   #color=(0.0, 0.0, 0.0),
+                                   #figure=fig,
+                                   #line_width=bones3d_line_width,
+                                   #tube_radius=bones3d_tube_radius,
+                                   #tube_sides=bones3d_tube_sides)
+            #scalebar_text_location = scalebar_location_start + (scalebar_location_end - scalebar_location_start) / 2.0
+            #scalebar_text_location = scalebar_location_end + np.array([0.5, -0.75, 0.5], dtype=np.float)
+            #scalebar_length = np.sqrt(np.sum((scalebar_location_end - scalebar_location_start)**2))
+            #scalebar_text = mlab.text3d(scalebar_text_location[0],
+                                        #scalebar_text_location[1],
+                                        #scalebar_text_location[2],
+                                        #'{:0.1f} cm'.format(scalebar_length),
+                                        #figure=fig,
+                                        #color=(0.0, 0.0, 0.0),
+                                        #line_width=1.0,
+                                        #scale=0.5)
 
-            fig.scene.parallel_projection = True
-            print(8)
-            mlab.view(figure=fig,
-                      azimuth=90,
-                      elevation=0,
-                      distance=25,
-                      focalpoint=np.mean(joints0, 0))
-            print(9)
-            if save:
-                save_fig3d(folder+'/model_aligned_xy.svg', fig, True)
-            print(10)
-            mlab.view(figure=fig,
-                      azimuth=0,
-                      elevation=-90,
-                      distance=25,
-                      focalpoint=np.mean(joints0, 0))
-            print(11)
-            if save:
-                save_fig3d(folder+'/model_aligned_xz.svg', fig, True)
-            print(12)
-        #     mlab.show()
+            #fig.scene.parallel_projection = True
+            #print(8)
+            #mlab.view(figure=fig,
+                      #azimuth=90,
+                      #elevation=0,
+                      #distance=25,
+                      #focalpoint=np.mean(joints0, 0))
+            #print(9)
+            #if save:
+                #save_fig3d(folder+'/model_aligned_xy.svg', fig, True)
+            #print(10)
+            #mlab.view(figure=fig,
+                      #azimuth=0,
+                      #elevation=-90,
+                      #distance=25,
+                      #focalpoint=np.mean(joints0, 0))
+            #print(11)
+            #if save:
+                #save_fig3d(folder+'/model_aligned_xz.svg', fig, True)
+            #print(12)
+            #mlab.show()
 
 
             # COMPARE LENGTHS & ANGLES
@@ -903,10 +929,10 @@ if __name__ == '__main__':
             dict_aligned_pose['joint_pos0'] = joint_pos0
             dict_aligned_pose['joint_pos1'] = joint_pos1
             # 
-            if save:
-                np.save(folder + '/pos_align.npy', dict_aligned_pose)
-                print('Saved aligned 3D positions ({:s})'.format(folder + '/pos_align.npy'))
-                print()
+            #if save:
+                #np.save(folder + '/pos_align.npy', dict_aligned_pose)
+                #print('Saved aligned 3D positions ({:s})'.format(folder + '/pos_align.npy'))
+                #print()
             
             # PLOT
     #         X = np.arange(np.size(bone_length0))
@@ -938,7 +964,7 @@ if __name__ == '__main__':
     #                                      linewidth=linewidth,
     #                                      label='Fit')
     #         h_legend = list([legend_0, legend_fit])
-    #         ax.legend(handles=h_legend, loc='upper right', fontname=fontname, fontsize=fontsize, frameon=False)
+    #         ax.legend(handles=h_legend, loc='upper right', frameon=False)
     #         fig.tight_layout()
     #         fig.canvas.draw()
 
@@ -1164,7 +1190,7 @@ if __name__ == '__main__':
     # #                                      label='MRI')
 
     # #         h_legend = list([legend_0, legend_fit])
-    # #         ax7.legend(handles=h_legend, loc='upper right', fontname=fontname, fontsize=fontsize, frameon=False)
+    # #         ax7.legend(handles=h_legend, loc='upper right', frameon=False)
     # #         fig7.tight_layout()
     #         fig7.canvas.draw()        
 

@@ -26,36 +26,67 @@ import anatomy
 import model
 sys_path0 = np.copy(sys.path)
 
-verbose = True
+verbose = False
 save = True
 
 folder_base = data.path
 folder_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/ACM/',
-    folder_base+'/dataset_analysis/M220217_DW03/ACM/',
-    folder_base+'/datasets_figures/20200205/arena_20200205_calibration_on/',
+    folder_base+'/dataset_analysis/M220217_DW01/20220217/ACM/',
+    folder_base+'/dataset_analysis/M220217_DW03/20220217/ACM/',
+    folder_base+'/datasets_figures/figures/20200205/arena_20200205_calibration_on/',
+    folder_base+'/datasets_figures/figures/20200207/arena_20200207_calibration_on',
+    folder_base+'/datasets_figures/figures/20210511_1/table_{:01d}_20210511_calibration'.format(1),
+    folder_base+'/datasets_figures/figures/20210511_2/table_{:01d}_20210511_calibration__more'.format(2),
+    folder_base+'/datasets_figures/figures/20210511_3/table_{:01d}_20210511_calibration'.format(3),
+    folder_base+'/datasets_figures/figures/20210511_4/table_{:01d}_20210511_calibration__more'.format(4),
     ])
 
 file_acm_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220401-155200/',
-    folder_base+'/dataset_analysis/M220217_DW03/ACM/M220217_DW03_20220401_205600/',
+    folder_base+'/dataset_analysis/M220217_DW01/20220217/ACM/M220217_DW01/',
+    folder_base+'/dataset_analysis/M220217_DW03/20220217/ACM/M220217_DW03/',
     folder_base+'/datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
+    folder_base+'/datasets_figures/reconstruction/20200207/arena_20200207_calibration_on',
+    folder_base+'/datasets_figures/reconstruction/20210511_1/table_{:01d}_20210511_calibration'.format(1),
+    folder_base+'/datasets_figures/reconstruction/20210511_2/table_{:01d}_20210511_calibration__more'.format(2),
+    folder_base+'/datasets_figures/reconstruction/20210511_3/table_{:01d}_20210511_calibration'.format(3),
+    folder_base+'/datasets_figures/reconstruction/20210511_4/table_{:01d}_20210511_calibration__more'.format(4),
     ])
 
 file_acmres_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220401-155200/results/M220217_DW01_20220401-155200_20220401-155411',
-    folder_base+'/dataset_analysis/M220217_DW03/ACM/M220217_DW03_20220401_205600/results/M220217_DW03_20220401_205600_20220403-170909',
+    folder_base+'/dataset_analysis/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220401-155200_20220401-155411/',
+    folder_base+'/dataset_analysis/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_20220405-184123/',
     folder_base+'/datasets_figures/reconstruction/20200205/arena_20200205_calibration_on/',
+    folder_base+'/datasets_figures/reconstruction/20200207/arena_20200207_calibration_on/',
+    folder_base+'/datasets_figures/reconstruction/20210511_1/table_{:01d}_20210511_calibration/'.format(1),
+    folder_base+'/datasets_figures/reconstruction/20210511_2/table_{:01d}_20210511_calibration__more/'.format(2),
+    folder_base+'/datasets_figures/reconstruction/20210511_3/table_{:01d}_20210511_calibration/'.format(3),
+    folder_base+'/datasets_figures/reconstruction/20210511_4/table_{:01d}_20210511_calibration__more/'.format(4),
     ])
 
 file_skeleton_list = list([
-    folder_base+'/dataset_analysis/M220217_DW01/MRI/labels_m1_flip.npy',
-    folder_base+'/dataset_analysis/M220217_DW03/MRI/labels_m3_base.npy',
+    folder_base+'/dataset_analysis/M220217_DW01/20220217/MRI/labels_m1_flip.npy',
+    folder_base+'/dataset_analysis/M220217_DW03/20220217/MRI/labels_m3_base.npy',
     folder_base+'/datasets_figures/required_files/20200205/mri_skeleton0_full.npy',
+    folder_base+'/datasets_figures/required_files/20200207/mri_skeleton0_full.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(1) + '/mri_skeleton0_full.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(2) + '/mri_skeleton0_full.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(3) + '/mri_skeleton0_full.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(4) + '/mri_skeleton0_full.npy'
     ])
 
-resolution_mri_list = [0.3, 0.3, 0.4]
-list_is_large_animal = list([0, 0, 0])
+file_mri_list = list([
+    folder_base+'/dataset_analysis/M220217_DW01/20220217/MRI/mean_mri_data__01_flip.npy',
+    folder_base+'/dataset_analysis/M220217_DW03/20220217/MRI/mean_mri_data__01_flip.npy', #Yes, 01 is correct for mouse 3.
+    folder_base+'/datasets_figures/required_files/20200205/mri_data.npy',
+    folder_base+'/datasets_figures/required_files/20200207/mri_data.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(1) + '/mri_data.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(2) + '/mri_data.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(3) + '/mri_data.npy',
+    folder_base+'/datasets_figures/required_files/20210511/mri_{:01d}'.format(4) + '/mri_data.npy'
+    ])
+
+resolution_mri_list = [0.3, 0.3, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4]
+list_is_large_animal = list([0, 0, 0, 0, 0, 0, 1, 1])
 
 # MATH
 def rodrigues2rotMat_single(r):
