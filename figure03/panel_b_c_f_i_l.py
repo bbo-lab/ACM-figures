@@ -148,13 +148,12 @@ if __name__ == '__main__':
     x_ini = np.load(folder+'/x_ini.npy', allow_pickle=True)
     
     save_dict = np.load(folder+'/save_dict.npy', allow_pickle=True).item()
-    if ('mu_uks' in save_dict):
-        mu_uks = save_dict['mu_uks'][1:]
+    mu_uks = save_dict['mu_uks'][1:] # probabilisitc and deterministic models now both generate a variable called 'mu_uks'
+    if ('var_uks' in save_dict): # check if variable 'var_uks' is present to determine if poses are generated via a pobabilistic or a deterministic model
         var_uks = save_dict['var_uks'][1:]
         nSamples = np.copy(nSamples_use)
         print(save_dict['message'])
     else:
-        mu_uks = save_dict['mu'][1:]
         nT = np.size(mu_uks, 0)
         nPara = np.size(mu_uks, 1)
         var_dummy = np.identity(nPara, dtype=np.float64) * 2**-52
