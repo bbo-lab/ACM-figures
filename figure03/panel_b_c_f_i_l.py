@@ -31,7 +31,7 @@ save = True
 save_leg = False
 verbose = True
 
-mode = 'mode4' # 'mode4' or 'mode1' change to the latter to generate plots for naive skeleton model
+mode = 'mode1' # 'mode4' or 'mode1' change to the latter to generate plots for naive skeleton model
 
 folder_save = os.path.abspath('panels') + '/trace/' + mode
 
@@ -71,7 +71,9 @@ folder_list = list(['/20200205/arena_20200205_033300_033500', # 0 # 20200205
                     '/20200207/arena_20200207_060400_060800', # 25
                     '/20200207/arena_20200207_061000_062100', # 26
                     '/20200207/arena_20200207_064100_064400', # 27
-                    '/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220309_173500_DWchecked_full/results/M220217_DW01_20220309_173500_DWchecked_full_20220331-134332', # 28
+                    '/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220401-155200/results/M220217_DW01_20220401-155200_20220401-155411', # 28
+                    'dataset_analysis/R220318_DW01/20220318/ACM/R220318_DW01_20220318_01/results/R220318_DW01_20220318_01_20220331-205800_20220403-171117', # 29
+                    'dataset_analysis/R220318_DW01/20220318/ACM/R220318_DW01_20220318_01/results/R220318_DW01_20220318_01_083000-083000_mode1_20220408-091122', # 30
                     ])
 folder_list[0:28] = list([folder_recon + i + add2folder for i in folder_list[0:28]])
 folder_list[28:] = list([data.path + '/' + i for i in folder_list[28:]])
@@ -80,9 +82,12 @@ project_folder_list = folder_list.copy()
 project_folder_list[28:] = [ i + '/../../' for i in folder_list[28:] ]
 
 frame_range = [None for i in folder_list]
-frame_range[28] = [16600, 16850]
+frame_range[28] = [16600, int(16600+15+2*0.6*196)]
+#frame_range[29] = [83240-15, int(83540+0.6*196)]
+frame_range[29] = [83240, int(83240+15+3*196+0.6*196)]
+frame_range[30] = [83240, int(83240+15+3*196+0.6*196)]
 
-dataset_to_use = 28
+dataset_to_use = 30
 # 14
 folder = folder_list[dataset_to_use]
 #
@@ -91,6 +96,14 @@ sys.path.append(project_folder_list[dataset_to_use])
 importlib.reload(cfg)
 cfg.animal_is_large = 0
 importlib.reload(anatomy)
+
+if type(cfg.index_frames_calib[0][0])=='int':
+    index_frames_calib_start = cfg.index_frames_calib[0][0]
+elif cfg.index_frames_calib=='all':
+    index_frames_calib_start = sorted(np.load(cfg.file_labelsManual,allow_pickle=True)['arr_0'].item().keys())[0]
+else:
+    print(f'Error: {cfg.index_frames_calib[0]}')
+    exit()
 
 assert cfg.dt, "Frameskip not supported!"
 #
@@ -109,10 +122,9 @@ print(f"{frame_start} {frame_end}")
 folder_save = f"{os.path.abspath('panels')}/trace/{mode}/{folder.split('/')[-1]}_{frame_start:06d}-{frame_end:06d}"
 os.makedirs(folder_save,exist_ok=True)
 print(f"folder_save {folder_save}")
-    
 axis = 0
 threshold = 25.0 # cm/s
-nSamples_use = int(5e3)
+nSamples_use = int(3e3)
 
 cmap = plt.cm.viridis
 cmap2 = plt.cm.tab10
@@ -686,7 +698,7 @@ if __name__ == '__main__':
                       [ax4, ax40, ax400, angle_velocity_mean, angle_velocity_std],])
     index_start = int(15)
     print(cfg.frame_rate)
-    index_end = index_start + int(0.6*cfg.frame_rate)
+    index_end = frame_end-frame_start - int(0.6*cfg.frame_rate)
     for i_item in range(4):
         print('metric: #{:01d}'.format(i_item+1))
         item = item_list[i_item]
@@ -857,7 +869,11 @@ if __name__ == '__main__':
             joint_index = args_model['model']['joint_order'].index(joint_names_detec[j][i])
             marker_index = np.where(joint_index == abs(args_model['model']['joint_marker_index']))[0][0]
             x = np.copy(time)
-            y = np.sum(args_model['labels_mask'][frame_start-cfg.index_frames_calib[0][0]:frame_end-cfg.index_frames_calib[0][0], :, marker_index].cpu().numpy(), 1)
+            print(frame_start)
+            print(type(frame_start))
+            print(frame_end)
+            print(type(frame_end))
+            y = np.sum(args_model['labels_mask'][frame_start-index_frames_calib_start:frame_end-index_frames_calib_start, :, marker_index].cpu().numpy(), 1)
             ax_use.plot(x, y, color=joint_names_detec_colors[j][i], linewidth=linewidth, clip_on=False)
         h_legend = ax_use.legend(joint_names_detec_legend[j], loc='upper right', fontsize=fontsize, frameon=False)
         for text in h_legend.get_texts():
@@ -973,6 +989,7 @@ if __name__ == '__main__':
                     pad_inches=0)
 
     # save & verbose
+    print(save)
     if save:
         fig1.savefig(folder_save+'/gait_position__{:s}.svg'.format(mode),
 #                     bbox_inches="tight",
@@ -980,6 +997,7 @@ if __name__ == '__main__':
                     transparent=True,
                     format='svg',
                    pad_inches=0)
+        print(folder_save+'/gait_position__{:s}.svg'.format(mode))
         fig2.savefig(folder_save+'/gait_velocity__{:s}.svg'.format(mode),
 #                     bbox_inches="tight",
                     dpi=300,
