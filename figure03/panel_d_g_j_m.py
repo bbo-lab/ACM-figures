@@ -20,53 +20,110 @@ import helper
 import model
 sys_path0 = np.copy(sys.path)
 
-mode = 'mode4' # 'mode4' or 'mode1' change to the latter to generate plots for naive skeleton model
-
 save = False
 verbose = True
 
-folder_recon = data.path + '/reconstruction' 
-folder_list = list(['/20200205/arena_20200205_033300_033500', # 0 # 20200205
-                    '/20200205/arena_20200205_034400_034650', # 1
-                    '/20200205/arena_20200205_038400_039000', # 2
-                    '/20200205/arena_20200205_039200_039500', # 3
-                    '/20200205/arena_20200205_039800_040000', # 4
-                    '/20200205/arena_20200205_040500_040700', # 5
-                    '/20200205/arena_20200205_041500_042000', # 6
-                    '/20200205/arena_20200205_045250_045500', # 7
-                    '/20200205/arena_20200205_046850_047050', # 8
-                    '/20200205/arena_20200205_048500_048700', # 9
-                    '/20200205/arena_20200205_049200_050300', # 10
-                    '/20200205/arena_20200205_050900_051300', # 11
-                    '/20200205/arena_20200205_052050_052200', # 12
-                    '/20200205/arena_20200205_055200_056000', # 13
-                    '/20200207/arena_20200207_032200_032550', # 14 # 20200207
-                    '/20200207/arena_20200207_044500_045400', # 15
-                    '/20200207/arena_20200207_046300_046900', # 16
-                    '/20200207/arena_20200207_048000_049800', # 17
-                    '/20200207/arena_20200207_050000_050400', # 18
-                    '/20200207/arena_20200207_050800_051300', # 19
-                    '/20200207/arena_20200207_052250_052650', # 20
-                    '/20200207/arena_20200207_053050_053500', # 21
-                    '/20200207/arena_20200207_055100_056200', # 22
-                    '/20200207/arena_20200207_058400_058900', # 23
-                    '/20200207/arena_20200207_059450_059950', # 24
-                    '/20200207/arena_20200207_060400_060800', # 25
-                    '/20200207/arena_20200207_061000_062100', # 26
-                    '/20200207/arena_20200207_064100_064400',]) # 27
-folder_list_use = list([i.split('/')[2] for i in folder_list])
-folder_list_indices = list([[[int(i.split('_')[-2]), int(i.split('_')[-1])]] for i in folder_list_use])
-frame_rate = 100.0
+mode = 'mode4'
 
+species = 'rat'
+
+if species=='rat':
+    folder_recon = data.path + '/datasets_figures/reconstruction'
+    folder_list = list(['/20200205/arena_20200205_033300_033500', # 0 # 20200205
+                        '/20200205/arena_20200205_034400_034650', # 1
+                        '/20200205/arena_20200205_038400_039000', # 2
+                        '/20200205/arena_20200205_039200_039500', # 3
+                        '/20200205/arena_20200205_039800_040000', # 4
+                        '/20200205/arena_20200205_040500_040700', # 5
+                        '/20200205/arena_20200205_041500_042000', # 6
+                        '/20200205/arena_20200205_045250_045500', # 7
+                        '/20200205/arena_20200205_046850_047050', # 8
+                        '/20200205/arena_20200205_048500_048700', # 9
+                        '/20200205/arena_20200205_049200_050300', # 10
+                        '/20200205/arena_20200205_050900_051300', # 11
+                        '/20200205/arena_20200205_052050_052200', # 12
+                        '/20200205/arena_20200205_055200_056000', # 13
+                        '/20200207/arena_20200207_032200_032550', # 14 # 20200207
+                        '/20200207/arena_20200207_044500_045400', # 15
+                        '/20200207/arena_20200207_046300_046900', # 16
+                        '/20200207/arena_20200207_048000_049800', # 17
+                        '/20200207/arena_20200207_050000_050400', # 18
+                        '/20200207/arena_20200207_050800_051300', # 19
+                        '/20200207/arena_20200207_052250_052650', # 20
+                        '/20200207/arena_20200207_053050_053500', # 21
+                        '/20200207/arena_20200207_055100_056200', # 22
+                        '/20200207/arena_20200207_058400_058900', # 23
+                        '/20200207/arena_20200207_059450_059950', # 24
+                        '/20200207/arena_20200207_060400_060800', # 25
+                        '/20200207/arena_20200207_061000_062100', # 26
+                        '/20200207/arena_20200207_064100_064400', # 27
+                        ])
+    folder_list_use = list([i.split('/')[2] for i in folder_list])
+    print(folder_list_use)
+    folder_list_indices = list([[[int(i.split('_')[-2]), int(i.split('_')[-1])]] for i in folder_list_use])
+    print(folder_list_indices)
+    frame_rate = 100.0
+
+    add2cfg = ''
+
+    if (mode == 'mode4'):
+        add2folder = '__pcutoff9e-01'
+    elif (mode == 'mode1'):
+        add2folder = '__mode1__pcutoff9e-01'
+    else:
+        raise
+
+elif species=='mouse':
+    folder_recon = data.path + '/dataset_analysis/'
+    folder_list = list(['/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_003412_004000',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_006254_006598',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_008018_008508',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_016543_017033',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_019581_020169',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_021051_021639',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_032712_033398',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_042610_043198',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_053291_054271',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_059955_060641',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_074948_075634',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_078377_078965',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_086609_087687',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_109050_109441',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_111401_112185',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_000300_000900',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_001500_001900',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_002900_003400',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_004600_005100',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_006100_006500',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_009800_010700',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_011600_012100',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_013200_014000',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_015600_016100',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_016700_017400',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_021600_022300',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_044600_045300',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_050700_051200',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_057100_057700',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_060700_061800',
+                        ])
+    folder_list_use = list([i.split('/')[6] for i in folder_list])
+    print(folder_list_use)
+    folder_list_indices = list([[[int(i.split('_')[-2]), int(i.split('_')[-1])]] for i in folder_list_use])
+    print(folder_list_indices)
+    frame_rate = 196.0
+
+    add2cfg = '/../..'
+
+    if (mode == 'mode4'):
+        add2folder = '__mode4__pcutoff9e-01'
+    elif (mode == 'mode1'):
+        add2folder = '__mode1__pcutoff9e-01'
+    else:
+        raise
+
+#
 list_is_large_animal = list([0 for i in folder_list])
 
-if (mode == 'mode4'):
-    add2folder = '__pcutoff9e-01'
-elif (mode == 'mode1'):
-    add2folder = '__mode1__pcutoff9e-01'
-else:
-    raise
-#
 threshold_velocity = 25.0 # cm/s
 dTime = 0.2 # s
 axis = 0
@@ -77,10 +134,8 @@ elif (axis == 1):
 elif (axis == 2):
     axis_s = 'z'
     
-if (add2folder == '__pcutoff9e-01'):
-    folder_save = os.path.abspath('panels') + '/mode4'
-else:
-    folder_save = os.path.abspath('panels') + '/mode1'
+folder_save = os.path.abspath('panels') + '/' + mode
+
 #
 paws_joint_names = list(['joint_wrist_left', 'joint_wrist_right', 'joint_ankle_left', 'joint_ankle_right',])
 paws_joint_names_legend = list(['left wrist joint', 'right wrist joint', 'left ankle joint', 'right ankle joint',])
@@ -383,7 +438,7 @@ if __name__ == '__main__':
         for i_folder in range(nFolders):
             folder = folder_recon+folder_list[i_folder]+add2folder
             sys.path = list(np.copy(sys_path0))
-            sys.path.append(folder)
+            sys.path.append(folder+add2cfg)
             importlib.reload(cfg)
             cfg.animal_is_large = list_is_large_animal[i_folder]
             importlib.reload(anatomy)
@@ -392,12 +447,20 @@ if __name__ == '__main__':
                 print(folder)
 
                 # get arguments
-                folder_reqFiles = data.path + '/required_files' 
-                file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
-                file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
-                file_model = folder_reqFiles + '/model.npy'
-#                 file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/labels_dlc_{:06d}_{:06d}.npy'.format(cfg.index_frame_start, cfg.index_frame_end)
-                file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + cfg.file_labelsDLC.split('/')[-1]
+                folder_reqFiles = data.path + '/datasets_figures/required_files'
+
+                file_origin_coord = cfg.file_origin_coord
+                if not os.path.isfile(file_origin_coord):
+                    file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
+                file_calibration = cfg.file_calibration
+                if not os.path.isfile(file_calibration):
+                    file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
+                file_model = cfg.file_model
+                if not os.path.isfile(file_model):
+                    file_model = folder_reqFiles + '/model.npy'
+                file_labelsDLC = cfg.file_labelsDLC
+                if not os.path.isfile(file_labelsDLC):
+                    file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + cfg.file_labelsDLC.split('/')[-1]
 
                 args_model = helper.get_arguments(file_origin_coord, file_calibration, file_model, file_labelsDLC,
                                                   cfg.scale_factor, cfg.pcutoff)
