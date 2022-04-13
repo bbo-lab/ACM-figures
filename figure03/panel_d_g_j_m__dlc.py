@@ -75,35 +75,36 @@ if species=='rat':
 
 elif species=='mouse':
     folder_recon = data.path + '/dataset_analysis/'
-    folder_list = list(['/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_003412_004000',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_006254_006598',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_008018_008508',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_016543_017033',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_019581_020169',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_021051_021639',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_032712_033398',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_042610_043198',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_053291_054271',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_059955_060641',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_074948_075634',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_078377_078965',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_086609_087687',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_109050_109441',
-                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_111401_112185',
+    folder_list = list([
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_003412_004000',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_006254_006598',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_008018_008508',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_016543_017033',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_019581_020169',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_021051_021639',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_032712_033398',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_042610_043198',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_053291_054271',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_059955_060641',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_074948_075634',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_078377_078965',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_086609_087687',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_109050_109441',
+                        #'/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_111401_112185',
                         '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_000300_000900',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_001500_001900',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_002900_003400',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_004600_005100',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_006100_006500',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_009800_010700',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_011600_012100',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_013200_014000',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_015600_016100',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_016700_017400',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_021600_022300',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_044600_045300',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_050700_051200',
-                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_060700_061800',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_001500_001900',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_002900_003400',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_004600_005100',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_006100_006500',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_009800_010700',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_011600_012100',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_013200_014000',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_015600_016100',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_016700_017400',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_021600_022300',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_044600_045300',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_050700_051200',
+                        #'/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_060700_061800',
                         ])
     folder_list_use = list([i.split('/')[6] for i in folder_list])
     print(folder_list_use)
@@ -133,7 +134,7 @@ elif (axis == 1):
 elif (axis == 2):
     axis_s = 'z'
 
-folder_save = os.path.abspath('panels') + '/' + mode + '/' + species
+folder_save = os.path.abspath('panels') + '/dlc/' + mode + '/' + species
 os.makedirs(folder_save,exist_ok=True)
 #
 paws_joint_names = list(['marker_paw_front_left_start', 'marker_paw_front_right_start', 'marker_ankle_left_start', 'marker_ankle_right_start',])
@@ -486,7 +487,7 @@ if __name__ == '__main__':
                 if ('mu_uks' in save_dict):
                     mu_uks_norm_all = np.copy(save_dict['mu_uks'][1:])
                 else:
-                    mu_uks_norm_all = np.copy(save_dict['mu'][1:])
+                    mu_uks_norm_all = np.copy(save_dict['mu_fit'][1:])
                 #
                 # get joint connections for angle calculation
                 nJoints = args_model['numbers']['nBones']+1
@@ -547,10 +548,11 @@ if __name__ == '__main__':
 
                     # get poses
                     _, _, skeleton_pos = model.fcn_emission(torch.from_numpy(x), args_model)
-                    skeleton_pos = skeleton_pos.cpu().numpy()                
-                    start_index = int(file_labelsDLC_split[-1].split('_')[2])
-                    start_index = cfg.index_frame_ini - start_index
-                    skeleton_pos = labels_dlc_3d[start_index:start_index+len(x)]
+                    skeleton_pos = skeleton_pos.cpu().numpy()
+                    print(labels_dlc_3d)
+                    dlc_mask = np.logical_and(labels_dlc_3d['frame_list']>=frame_start, labels_dlc_3d['frame_list']<frame_end)
+                    print(f'{np.sum(dlc_mask)} - {dlc_mask.shape} - {labels_dlc_3d["labels_all"].shape}')
+                    skeleton_pos = labels_dlc_3d['labels_all'][dlc_mask]
                     
                     # do coordinate transformation
                     joint_index1_1 = joint_marker_order.index('marker_hip_left_start')
