@@ -1343,7 +1343,7 @@ if __name__ == '__main__':
         cfg_plt.plot_coord_ax(ax9, '100 ms', '1 deg/ms', 100.0, 1)
         fig9.canvas.draw()
         if save:
-            for i_folder in range(nFolders):
+            for i_folder in range(nFolders): #<- What, why?
                 fig9.savefig(folder_save+'/gait_angle_velocity_limb__population__{:s}.svg'.format(paws_joint_names[i_paw_timing]),
     #                          bbox_inches="tight",
                              dpi=300,
