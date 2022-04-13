@@ -460,8 +460,10 @@ if __name__ == '__main__':
                 if not os.path.isfile(file_labelsDLC):
                     file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + cfg.file_labelsDLC.split('/')[-1]
 
-                file_labelsDLC_split = file_labelsDLC.split('/')
-                file_labelsDLC_3d = '/'.join(file_labelsDLC_split[:-1]) + '/' + file_labelsDLC_split[-1].split('.')[0] + '__3d.npy'
+                file_labelsDLC_3d = file_labelsDLC[:-4]+'__3d.npy'
+                if not os.path.isfile(file_labelsDLC):
+                    file_labelsDLC_split = file_labelsDLC.split('/')
+                    file_labelsDLC_3d = '/'.join(file_labelsDLC_split[:-1]) + '/' + file_labelsDLC_split[-1].split('.')[0] + '__3d.npy'
                 labels_dlc_3d = np.load(file_labelsDLC_3d, allow_pickle=True)
                 
                 args_model = helper.get_arguments(file_origin_coord, file_calibration, file_model, file_labelsDLC,

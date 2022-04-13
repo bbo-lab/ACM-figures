@@ -12,15 +12,13 @@ sys.path.append(os.path.abspath('../ACM'))
 import data
 import helper
 import interp_3d
-
-
-
+nFrames = cfg.index_frame_end-cfg.index_frame_start
 file_dlc = resultfolder+'/configuration/file_labelsDLC.npy'
 labels_dlc_dict = np.load(file_dlc, allow_pickle=True).item()
 frame_list = labels_dlc_dict['frame_list']
 labels_dlc = labels_dlc_dict['labels_all']
 labels_dlc_shape = np.shape(labels_dlc)
-nFrames = labels_dlc_shape[0]
+
 nCameras = labels_dlc_shape[1]
 nMarkers = labels_dlc_shape[2]
 #
@@ -39,14 +37,16 @@ k = calibration['k_fit'].cpu().numpy()
 rX1 = calibration['rX1_fit'].cpu().numpy()
 tX1 = calibration['tX1_fit'].cpu().numpy()
 
-labels_dlc_3d = np.full((nFrames, nMarkers, 3), np.nan, dtype=np.float64)
-for i_frame in range(nFrames):
+labels_dlc_3d = {
+    'labels_all': np.full((nFrames, nMarkers, 3), np.nan, dtype=np.float64),
+    'frame_list': np.asarray(list(range(cfg.index_frame_start,cfg.index_frame_end)))
+}
+for i_frame, frame_idx in enumerate(labels_dlc_3d['frame_list']):
     #
     print('\r\t\tframe:\t{:06d}/{:06d}'.format(i_frame+1, nFrames), end='', flush=True)
     #
-    frame = frame_list[i_frame]
     for i_marker in range(nMarkers):
-        labels_2d = labels_dlc[i_frame, :, i_marker]
+        labels_2d = labels_dlc[np.where(frame_list==frame_idx)[0][0], :, i_marker]
         labels_2d_pcutoff = labels_2d[:, 2]
         labels_2d_pcutoff[np.isnan(labels_2d_pcutoff)] = 0.0
         #
@@ -60,5 +60,6 @@ for i_frame in range(nFrames):
         labels_2d[mask_nan] = np.nan
         labels_dlc_3d[i_frame, i_marker] = interp_3d.calc_3d_point(labels_2d, A, k, rX1, tX1)
 #
+print(labels_dlc_3d['labels_all'])
 file_save = file_dlc[:-4]+'__3d.npy'
 np.save(file_save, labels_dlc_3d)
