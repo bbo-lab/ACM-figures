@@ -112,7 +112,7 @@ elif species=='mouse':
     print(folder_list_indices)
     frame_rate = 196.0
 
-    add2cfg = '/../..'
+    add2cfg = '/configuration/'
 
     if (mode == 'mode4'):
         add2folder = '__mode4__pcutoff9e-01'
@@ -449,16 +449,16 @@ if __name__ == '__main__':
                 # get arguments
                 folder_reqFiles = data.path + '/datasets_figures/required_files'
 
-                file_origin_coord = cfg.file_origin_coord
+                file_origin_coord = folder+'/configuration/file_origin_coord.npy'
                 if not os.path.isfile(file_origin_coord):
                     file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
-                file_calibration = cfg.file_calibration
+                file_calibration = folder+'/configuration/file_calibration.npy'
                 if not os.path.isfile(file_calibration):
                     file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
-                file_model = cfg.file_model
+                file_model = folder+'/configuration/file_model.npy'
                 if not os.path.isfile(file_model):
                     file_model = folder_reqFiles + '/model.npy'
-                file_labelsDLC = cfg.file_labelsDLC
+                file_labelsDLC = folder+'/configuration/file_labelsDLC.npy'
                 if not os.path.isfile(file_labelsDLC):
                     file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + cfg.file_labelsDLC.split('/')[-1]
 
@@ -503,6 +503,7 @@ if __name__ == '__main__':
                     frame_start = folder_list_indices[i_folder][i_seq][0]
                     frame_end = folder_list_indices[i_folder][i_seq][1]
                     #
+
                     mu_uks_norm = mu_uks_norm_all[frame_start-cfg.index_frame_ini:frame_end-cfg.index_frame_ini]
                     mu_uks = model.undo_normalization(torch.from_numpy(mu_uks_norm), args_model).numpy() # reverse normalization
                     labels_mask_sum = np.sum(labels_mask[frame_start-cfg.index_frame_ini:frame_end-cfg.index_frame_ini], 1)
@@ -523,6 +524,8 @@ if __name__ == '__main__':
                     nT_use = np.size(mu_uks_norm, 0)
                     x = np.tile(x_ini, nT_use).reshape(nT_use, len(x_ini))
                     x[:, free_para] = mu_uks
+
+                    print(x.shape)
 
                     # get poses
                     _, _, skeleton_pos = model.fcn_emission(torch.from_numpy(x), args_model)
