@@ -599,12 +599,7 @@ if __name__ == '__main__':
             skel_verts0 = skel_verts0 * 1e-1 # mri -> cm
             surf_verts0 = surf_verts0 * 1e-1 # mri -> cm
             #
-        #     origin = joints_mri[joint_start] * resolution_mri * 1e-1 # mri -> cm
-        #     markers0 = markers0 - origin
-        #     joints0 = joints0 - origin
-        #     skel_verts0 = skel_verts0 - origin
-        #     surf_verts0 = surf_verts0 - origin
-            #
+
             skeleton_edges0 = skeleton_edges_mri
         #     skeleton_coords0 = skeleton_coords_new
             skeleton_vertices0 = skel_verts0
@@ -612,71 +607,6 @@ if __name__ == '__main__':
             surface_vertices0 = surf_verts0
             marker_positions0 = markers0
 
-            #mlab.options.offscreen = True
-            #PLOT
-            #print(4)
-            #fig = mlab.figure(1,
-                              #size=(1080, 1080),
-                              #bgcolor=(1, 1, 1))
-            #fig = mlab.figure(1,
-                              #size=(10240, 10240),
-                              #bgcolor=(1, 1, 1))
-            #mlab.clf()
-            #print(5)
-            #plot_model_3d(fig,
-                          #skeleton_edges0, skeleton_vertices0,
-                          #surface_triangles0, surface_vertices0,
-                          #color=color_mri[:3])
-            #print(6)
-            #plot_model_3d(fig,
-                          #skeleton_edges_new, skeleton_vertices_new,
-                          #None, None,
-                          #color=color_fit[:3])
-            #print(7)
-            #scalebar
-            #scalebar_location_start = np.array([2.5, 0.0, 1.0], dtype=np.float64)
-            #scalebar_location_end = np.array([2.5, 4.0, 1.0], dtype=np.float64)
-            #scalebar = mlab.plot3d(np.array([scalebar_location_start[0], scalebar_location_end[0]], dtype=np.float64),
-                                   #np.array([scalebar_location_start[1], scalebar_location_end[1]], dtype=np.float64),
-                                   #np.array([scalebar_location_start[2], scalebar_location_end[2]], dtype=np.float64),
-                                   #color=(0.0, 0.0, 0.0),
-                                   #figure=fig,
-                                   #line_width=bones3d_line_width,
-                                   #tube_radius=bones3d_tube_radius,
-                                   #tube_sides=bones3d_tube_sides)
-            #scalebar_text_location = scalebar_location_start + (scalebar_location_end - scalebar_location_start) / 2.0
-            #scalebar_text_location = scalebar_location_end + np.array([0.5, -0.75, 0.5], dtype=np.float)
-            #scalebar_length = np.sqrt(np.sum((scalebar_location_end - scalebar_location_start)**2))
-            #scalebar_text = mlab.text3d(scalebar_text_location[0],
-                                        #scalebar_text_location[1],
-                                        #scalebar_text_location[2],
-                                        #'{:0.1f} cm'.format(scalebar_length),
-                                        #figure=fig,
-                                        #color=(0.0, 0.0, 0.0),
-                                        #line_width=1.0,
-                                        #scale=0.5)
-
-            #fig.scene.parallel_projection = True
-            #print(8)
-            #mlab.view(figure=fig,
-                      #azimuth=90,
-                      #elevation=0,
-                      #distance=25,
-                      #focalpoint=np.mean(joints0, 0))
-            #print(9)
-            #if save:
-                #save_fig3d(folder+'/model_aligned_xy.svg', fig, True)
-            #print(10)
-            #mlab.view(figure=fig,
-                      #azimuth=0,
-                      #elevation=-90,
-                      #distance=25,
-                      #focalpoint=np.mean(joints0, 0))
-            #print(11)
-            #if save:
-                #save_fig3d(folder+'/model_aligned_xz.svg', fig, True)
-            #print(12)
-            #mlab.show()
 
 
             # COMPARE LENGTHS & ANGLES
@@ -928,120 +858,7 @@ if __name__ == '__main__':
             dict_aligned_pose['bone_length1'] = bone_length1
             dict_aligned_pose['joint_pos0'] = joint_pos0
             dict_aligned_pose['joint_pos1'] = joint_pos1
-            # 
-            #if save:
-                #np.save(folder + '/pos_align.npy', dict_aligned_pose)
-                #print('Saved aligned 3D positions ({:s})'.format(folder + '/pos_align.npy'))
-                #print()
-            
-            # PLOT
-    #         X = np.arange(np.size(bone_length0))
-    #         fig = plt.figure(1, figsize=(16, 9))
-    #         fig.clear()
-    #         ax = fig.add_subplot(111)
-    #         ax.clear()
-    #         ax.spines["top"].set_visible(False)
-    #         ax.spines["right"].set_visible(False)
-    #         ax.bar(X+0.00, bone_length0, color=color_mri, width=0.25)
-    #         ax.bar(X+0.25, bone_length1, color=color_fit, width=0.25)
-    #         ax.set_xticks(X+0.125)
-    #         ax.set_xticklabels(bone_name0, rotation='vertical', fontname=fontname, fontsize=fontsize)
-    #         ax.set_yticks(np.arange(0.0, 4.5, 0.5, dtype=np.float64))
-    #         ax.set_yticklabels(np.arange(0.0, 4.5, 0.5, dtype=np.float64), fontname=fontname, fontsize=fontsize)
-    #         ax.set_ylim([0.0, 4.1])
-    #         ax.set_ylabel('bone length (cm)', fontname=fontname, fontsize=fontsize)
-    #         linewidth = 10
-    #         legend_0 = mlines.Line2D([], [],
-    #                                      color=color_mri,
-    #                                      marker='',
-    #                                      linestyle='-',
-    #                                      linewidth=linewidth,
-    #                                      label='MRI')
-    #         legend_fit = mlines.Line2D([], [],
-    #                                      color=color_fit,
-    #                                      marker='',
-    #                                      linestyle='-',
-    #                                      linewidth=linewidth,
-    #                                      label='Fit')
-    #         h_legend = list([legend_0, legend_fit])
-    #         ax.legend(handles=h_legend, loc='upper right', frameon=False)
-    #         fig.tight_layout()
-    #         fig.canvas.draw()
 
-
-    #         Y = np.arange(np.size(bone_length0))
-    #         fig2_w = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig2_h = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig2 = plt.figure(2, figsize=(fig2_w, fig2_h))
-    #         fig2.canvas.manager.window.move(0, 0)
-    #         fig2.clear()
-    #         ax2 = fig2.add_subplot(111)
-    #         ax2.clear()
-    #         ax2.spines["top"].set_visible(False)
-    #         ax2.spines["right"].set_visible(False)
-    #         ax2.barh(Y+0.25, bone_length0[::-1], color=color_mri, height=0.25)
-    #         ax2.barh(Y+0.00, bone_length1[::-1], color=color_fit, height=0.25)    
-    #         ax2.set_yticks(Y+0.125)
-    #         ax2.set_yticklabels(bone_name0[::-1], rotation='horizontal', horizontalalignment ='right', fontname=fontname, fontsize=fontsize)
-    #         ax2.set_xticks(np.arange(0.0, 4.5, 0.5, dtype=np.float64))
-    #         ax2.set_xticklabels(np.arange(0.0, 4.5, 0.5, dtype=np.float64), fontname=fontname, fontsize=fontsize)
-    #         ax2.set_xlim([0.0, 4.1])
-    #         ax2.set_xlabel('bone length (cm)', fontname=fontname, fontsize=fontsize)
-    #         linewidth2d = 10
-    #         legend_0 = mlines.Line2D([], [],
-    #                                      color=color_mri,
-    #                                      marker='',
-    #                                      linestyle='-',
-    #                                      linewidth=linewidth2d,
-    #                                      label='MRI')
-    #         legend_fit = mlines.Line2D([], [],
-    #                                      color=color_fit,
-    #                                      marker='',
-    #                                      linestyle='-',
-    #                                      linewidth=linewidth2d,
-    #                                      label='Fit')
-    #         h_legend = list([legend_0, legend_fit])
-    #         ax2.legend(handles=h_legend, loc='upper right', fontsize=fontsize, frameon=False)
-    # #         fig2.tight_layout()
-    #         fig2.canvas.draw()    
-
-    #         fig3_w = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig3_h = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig3 = plt.figure(3, figsize=(fig3_w, fig3_h))
-    #         fig3.canvas.manager.window.move(0, 0)
-    #         fig3.clear()
-    #         ax3 = fig3.add_subplot(111)
-    #         ax3.clear()
-    #         ax3.spines["top"].set_visible(False)
-    #         ax3.spines["right"].set_visible(False)
-    #         ax3.plot(bone_length0, bone_length1,
-    #                 linestyle='', marker='o',
-    #                 color=cmap(1/3), zorder=2, markersize=markersize)
-    #         dxy_offset = 0.1
-    #     #     bone_length_all = np.concatenate([bone_length0, bone_length1], 0)
-    #         unity_line = np.array([-10.0, 10.0], dtype=np.float64)
-    #         ax3.plot(unity_line, unity_line,
-    #                 linestyle='-', marker='',
-    #                 color='black', alpha=1.0, zorder=1)
-    # #         ax3.set_xticks(np.arange(0.0, 4.5, 0.5, dtype=np.float64))
-    # #         ax3.set_yticks(np.arange(0.0, 4.5, 0.5, dtype=np.float64))
-    # #         ax3.set_xticklabels(np.arange(0.0, 4.5, 0.5, dtype=np.float64), fontname=fontname, fontsize=fontsize)
-    # #         ax3.set_yticklabels(np.arange(0.0, 4.5, 0.5, dtype=np.float64), fontname=fontname, fontsize=fontsize)
-    #         ax3.set_xlim([0.0-0.1, 5.0+0.1])
-    #         ax3.set_ylim([0.0-0.1, 5.0+0.1])
-    #         ax3.set_xlabel('true bone length (cm)', fontname=fontname, fontsize=fontsize)
-    #         ax3.set_ylabel('learned bone length (cm)', fontname=fontname, fontsize=fontsize)
-    # #         fig3.tight_layout()
-    #         fig3.canvas.draw()
-
-# #             if (mode == 'on'):
-# #                 color_use = color_mode4
-# #             elif (mode == 'off'):
-# #                 color_use = color_mode1
-#             if (i_folder == 0):
-#                 color_use = color_animal1
-#             elif (i_folder == 1):
-#                 color_use = color_animal2
             color_use = color_animals[color_index_list[i_folder]]
             ax31.plot(bone_length0, bone_length1,
                     linestyle='', marker='o',
@@ -1066,79 +883,6 @@ if __name__ == '__main__':
     #         fig31.tight_layout()
             fig31.canvas.draw()
 
-    #         Y = np.arange(np.size(bone_angles0))
-    #         fig5_w = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig5_h = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig5 = plt.figure(5, figsize=(fig5_w, fig5_h))
-    #         fig5.canvas.manager.window.move(0, 0)
-    #         fig5.clear()
-    #         ax5 = fig5.add_subplot(111)
-    #         ax5.clear()
-    #         ax5.spines["top"].set_visible(False)
-    #         ax5.spines["right"].set_visible(False)
-    #         ax5.barh(Y+0.25, bone_angles0[::-1]*180.0/np.pi, color=color_mri, height=0.25)
-    #         ax5.barh(Y+0.00, bone_angles1[::-1]*180.0/np.pi, color=color_fit, height=0.25)    
-    #         ax5.set_yticks(Y+0.125)
-    #         ax5.set_yticklabels(joint_name0[::-1], rotation='horizontal', horizontalalignment ='right', fontname=fontname, fontsize=fontsize)
-    #         ax5.set_xticks(np.arange(0.0, 120, 20, dtype=np.int64))
-    #         ax5.set_xticklabels(np.arange(0.0, 120, 20, dtype=np.int64), fontname=fontname, fontsize=fontsize)
-    #         ax5.set_xlim([0.0, 115.0])
-    #         ax5.set_xlabel('joint angles (deg)', fontname=fontname, fontsize=fontsize)
-    #         linewidth3d = 10
-    #         legend_0 = mlines.Line2D([], [],
-    #                                      color=color_mri,
-    #                                      marker='',
-    #                                      linestyle='-',
-    #                                      linewidth=linewidth3d,
-    #                                      label='MRI')
-    #         legend_fit = mlines.Line2D([], [],
-    #                                      color=color_fit,
-    #                                      marker='',
-    #                                      linestyle='-',
-    #                                      linewidth=linewidth3d,
-    #                                      label='Fit')
-    #         h_legend = list([legend_0, legend_fit])
-    #         ax5.legend(handles=h_legend, loc='upper right', fontsize=fontsize, frameon=False)
-    # #         fig5.tight_layout()
-    #         fig5.canvas.draw()
-
-    #         fig6_w = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig6_h = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig6 = plt.figure(6, figsize=(fig6_w, fig6_h))
-    #         fig6.canvas.manager.window.move(0, 0)
-    #         fig6.clear()
-    #         ax6 = fig6.add_subplot(111)
-    #         ax6.clear()
-    #         ax6.spines["top"].set_visible(False)
-    #         ax6.spines["right"].set_visible(False)
-    #         ax6.plot(bone_angles0*180.0/np.pi, bone_angles1*180.0/np.pi,
-    #                 linestyle='', marker='o',
-    #                 color=cmap(1/3), zorder=2, markersize=markersize)
-    #         dxy_offset = 0.1
-    #     #     bone_angle_all = np.concatenate([bone_angles0*180.0/np.pi, bone_angles1*180.0/np.pi], 0)
-    #         unity_line = np.array([-360.0, 360.0], dtype=np.float64)
-    #         ax6.plot(unity_line, unity_line,
-    #                  linestyle='-', marker='',
-    #                  color='black', alpha=1.0, zorder=1)
-    #         ax6.set_xticks(list([0, 45, 90]))
-    #         ax6.set_yticks(list([0, 45, 90]))
-    #         ax6.set_xticklabels(list([0, 45, 90]), fontname=fontname, fontsize=fontsize)
-    #         ax6.set_yticklabels(list([0, 45, 90]), fontname=fontname, fontsize=fontsize)
-    #         ax6.set_xlim([0.0-5.0, 90.0+5.0])
-    #         ax6.set_ylim([0.0-5.0, 90.0+5.0])
-    #         ax6.set_xlabel('true joint angle (deg)', fontname=fontname, fontsize=fontsize)
-    #         ax6.set_ylabel('learned joint angle (deg)', fontname=fontname, fontsize=fontsize)
-    # #         fig6.tight_layout()
-    #         fig6.canvas.draw()
-
-# #             if (mode == 'on'):
-# #                 color_use = color_mode4
-# #             elif (mode == 'off'):
-# #                 color_use = color_mode1
-#             if (i_folder == 0):
-#                 color_use = color_animal1
-#             elif (i_folder == 1):
-#                 color_use = color_animal2
             color_use = color_animals[color_index_list[i_folder]]
             ax61.plot(bone_angles0*180.0/np.pi, bone_angles1*180.0/np.pi,
                     linestyle='', marker='o',
@@ -1162,126 +906,6 @@ if __name__ == '__main__':
             ax61.yaxis.set_label_coords(x=left_margin_x/fig61_w, y=ax61_y+0.5*ax61_h, transform=fig61.transFigure)
     #         fig61.tight_layout()
             fig61.canvas.draw()
-
-
-    #         Y = np.arange(np.size(joint_pos_error))
-    #         fig7_w = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig7_h = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig7 = plt.figure(81, figsize=(fig7_w, fig7_h))
-    #         fig7.canvas.manager.window.move(0, 0)
-    #         fig7.clear()
-    #         ax7 = fig7.add_subplot(111)
-    #         ax7.clear()
-    #         ax7.spines["top"].set_visible(False)
-    #         ax7.spines["right"].set_visible(False)
-    #         ax7.barh(Y, joint_pos_error[::-1], color=color_error, height=0.25)
-    #         ax7.set_yticks(Y)
-    #         ax7.set_yticklabels(bone_name_joint0[::-1], rotation='horizontal', horizontalalignment ='right', fontname=fontname, fontsize=fontsize)
-    # #         ax7.set_xticks(np.arange(0.0, 4.5, 0.5, dtype=np.float64))
-    # #         ax7.set_xticklabels(np.arange(0.0, 4.5, 0.5, dtype=np.float64), fontname=fontname, fontsize=fontsize)
-    # #         ax7.set_xlim([0.0, 4.1])
-    #         ax7.set_xlabel('joint postion error (cm)', fontname=fontname, fontsize=fontsize)
-    # #         linewidth = 10
-    # #         legend = mlines.Line2D([], [],
-    # #                                      color=color_fit,
-    # #                                      marker='',
-    # #                                      linestyle='-',
-    # #                                      linewidth=linewidth,
-    # #                                      label='MRI')
-
-    # #         h_legend = list([legend_0, legend_fit])
-    # #         ax7.legend(handles=h_legend, loc='upper right', frameon=False)
-    # #         fig7.tight_layout()
-    #         fig7.canvas.draw()        
-
-    #         dBin = 0.5
-    #         bin_range = np.arange(0.0, 10.0+dBin, dBin, dtype=np.float64)
-    #         fig8_w = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig8_h = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-    #         fig8 = plt.figure(8, figsize=(fig8_w, fig8_h))
-    #         fig8.canvas.manager.window.move(0, 0)
-    #         fig8.clear()
-    #         ax8 = fig8.add_subplot(111)
-    #         ax8.clear()
-    #         ax8.spines["top"].set_visible(False)
-    #         ax8.spines["right"].set_visible(False)
-
-    #         hist = np.histogram(joint_pos_error, bins=len(bin_range)-1, range=[bin_range[0], bin_range[-1]], normed=None, weights=None, density=True)
-    #         y = np.zeros(1+2*len(hist[0]), dtype=np.float64)
-    #         y[1::2] = np.copy(hist[0])
-    #         y[2::2] = np.copy(hist[0])
-    #         x = np.zeros(1+2*(len(hist[1])-1), dtype=np.float64)
-    #         x[0] = np.copy(hist[1][0])
-    #         x[1::2] = np.copy(hist[1][:-1])
-    #         x[2::2] = np.copy(hist[1][1:])
-    #         ax8.plot(x, y, color=color_error, linestyle='-', marker='', linewidth=linewidth, alpha=1.0)
-    # #         ax8.hist(joint_pos_error,
-    # #                  bins=bin_range,
-    # #                  range=None,
-    # #                  density=True,
-    # #                  weights=None,
-    # #                  cumulative=False,
-    # #                  bottom=None,
-    # #                  histtype='bar',
-    # #                  align='mid',
-    # #                  orientation='vertical',
-    # #                  rwidth=None,
-    # #                  log=False,
-    # #                  color=color_error,
-    # #                  label=None,
-    # #                  stacked=False,
-    # #                  data=None,
-    # #                  zorder=1,
-    # #                  alpha=1.0,
-    # #                  edgecolor='black',
-    # #                  linewidth=1.0)
-    # #         ax8.set_xticks(np.arange(0, 105, 10, dtype=np.int64).astype(np.float64)/10.0)
-    # #         ax8.set_yticks(np.arange(0, 24, 4, dtype=np.int64).astype(np.float64)/10.0)
-    # #         ax8.set_xticklabels(np.arange(0, 105, 10, dtype=np.int64).astype(np.float64)/10.0, fontname=fontname, fontsize=fontsize)
-    # #         ax8.set_yticklabels(np.arange(0, 24, 4, dtype=np.int64).astype(np.float64)/10.0, fontname=fontname, fontsize=fontsize)
-    #         ax8.set_xlim([0.0, 5.0])
-    #         ax8.set_ylim([0.0, 2.0])
-    #         ax8.set_xlabel('joint position error (cm)', fontname=fontname, fontsize=fontsize)
-    #         ax8.set_ylabel('propability', fontname=fontname, fontsize=fontsize)
-    # #         fig8.tight_layout()
-    #         fig8.canvas.draw()   
-
-    #         if save:
-    # #             fig.savefig(folder+'/align_bar1.svg',
-    # #                         bbox_inches="tight",
-    # #                         dpi=300,
-    # #                         transparent=True,
-    # #                         format='svg')
-    #             fig2.savefig(folder+'/align_bar_bone_length.svg',
-    #                          bbox_inches="tight",
-    #                          dpi=300,
-    #                          transparent=True,
-    #                          format='svg')
-    #             fig3.savefig(folder+'/align_unity_bone_length.svg',
-    #                          bbox_inches="tight",
-    #                          dpi=300,
-    #                          transparent=True,
-    #                          format='svg') 
-    #             fig5.savefig(folder+'/align_bar_angle.svg',
-    #                          bbox_inches="tight",
-    #                          dpi=300,
-    #                          transparent=True,
-    #                          format='svg')
-    #             fig6.savefig(folder+'/align_unity_angle.svg',
-    #                          bbox_inches="tight",
-    #                          dpi=300,
-    #                          transparent=True,
-    #                          format='svg')
-    #             fig7.savefig(folder+'/align_bar_joint_position_error.svg',
-    #                      bbox_inches="tight",
-    #                      dpi=300,
-    #                      transparent=True,
-    #                      format='svg')
-    #             fig8.savefig(folder+'/align_hist_joint_position_error.svg',
-    #                      bbox_inches="tight",
-    #                      dpi=300,
-    #                      transparent=True,
-    #                      format='svg')
 
         unity_line = np.array([-10.0, 10.0], dtype=np.float64)
         ax31.plot(unity_line, unity_line,
@@ -1352,21 +976,6 @@ if __name__ == '__main__':
     #     fig81.tight_layout()
         fig81.canvas.draw()   
         
-        
-#     from matplotlib.lines import Line2D
-#     custom_lines = [Line2D([0], [0], label='fully constrained',
-#                            color=color_mode4, linestyle='-', marker='', linewidth=5.0*linewidth),
-#                     Line2D([0], [0], label='unconstrained',
-#                            color=color_mode1, linestyle='-', marker='', linewidth=5.0*linewidth)]
-#     h_legend = ax31.legend(handles=custom_lines, fontsize=fontsize, frameon=False, loc='upper right')
-#     for text in h_legend.get_texts():
-#         text.set_fontname(fontname)
-#     h_legend = ax61.legend(handles=custom_lines, fontsize=fontsize, frameon=False, loc='upper right')
-#     for text in h_legend.get_texts():
-#         text.set_fontname(fontname)
-#     h_legend = ax81.legend(handles=custom_lines, fontsize=fontsize, frameon=False, loc='upper right')
-#     for text in h_legend.get_texts():
-#         text.set_fontname(fontname)
     
     
     import scipy.stats
@@ -1455,67 +1064,6 @@ if __name__ == '__main__':
     print(14)
         
         
-        
-#     dBin = 10.0
-#     bin_range = np.arange(0.0, 180.0+dBin, dBin, dtype=np.float64)
-#     fig91_w = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-#     fig91_h = np.round(mm_in_inch * 86.0*0.5, decimals=2)
-#     fig91 = plt.figure(91, figsize=(fig91_w, fig91_h))
-#     fig91.canvas.manager.window.move(0, 0)
-#     fig91.clear()
-#     ax91 = fig91.add_subplot(111)
-#     ax91.clear()
-#     ax91.spines["top"].set_visible(False)
-#     ax91.spines["right"].set_visible(False)
-#     bone_angles_error_all = np.array(bone_angles_error_all).ravel()
-#     hist = np.histogram(bone_angles_error_all, bins=len(bin_range)-1, range=[bin_range[0], bin_range[-1]], normed=None, weights=None, density=True)
-#     y = np.zeros(1+2*len(hist[0]), dtype=np.float64)
-#     y[1::2] = np.copy(hist[0])
-#     y[2::2] = np.copy(hist[0])
-#     x = np.zeros(1+2*(len(hist[1])-1), dtype=np.float64)
-#     x[0] = np.copy(hist[1][0])
-#     x[1::2] = np.copy(hist[1][:-1])
-#     x[2::2] = np.copy(hist[1][1:])
-#     ax91.plot(x, y, color=color_error, linestyle='-', marker='', linewidth=linewidth, alpha=1.0)
-# #     ax81.hist(joint_pos_error_all,
-# #              bins=bin_range,
-# #              range=None,
-# #              density=True,
-# #              weights=None,
-# #              cumulative=False,
-# #              bottom=None,
-# #              histtype='bar',
-# #              align='mid',
-# #              orientation='vertical',
-# #              rwidth=None,
-# #              log=False,
-# #              color=color_error,
-# #              label=None,
-# #              stacked=False,
-# #              data=None,
-# #              zorder=1,
-# #              alpha=1.0,
-# #              edgecolor='black',
-# #              linewidth=1.0)
-#     ax91.set_xticks(list([0, 45, 90]))
-# #     ax91.set_xticklabels(list([0, 45, 90]), fontname=fontname, fontsize=fontsize)
-#     ax91.set_yticks(list([0.00, 0.025, 0.05]))
-# #     ax91.set_yticklabels(list([0.00, 0.025, 0.05]), fontname=fontname, fontsize=fontsize)
-#     ax91.set_xlim([0.0-dBin/4, 90.0+dBin/4])
-#     ax91.set_ylim([0.0-0.001, 0.05+0.0025])
-#     ax91.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
-#     ax91.set_xlabel('joint angle error (deg)', fontname=fontname, fontsize=fontsize)
-#     ax91.set_ylabel('propability', fontname=fontname, fontsize=fontsize)
-# #     fig91.tight_layout()
-#     fig91.canvas.draw()   
-#     if save_all:
-#         for i_folder in range(len(folder_list)):
-#             folder = folder_list[i_folder]
-#             fig91.savefig(folder_save+'/align_hist__joint_angle_error_all.svg',
-#                      bbox_inches="tight",
-#                      dpi=300,
-#                      transparent=True,
-#                      format='svg')   
     print(14)
     if (verbose):
         plt.show()

@@ -23,41 +23,79 @@ sys_path0 = np.copy(sys.path)
 save = False
 verbose = True
 
-folder_save = os.path.abspath('panels') + '/dlc'
+modes_list = list(['mode1', 'mode4'])
+mode = 'mode4'
 
-folder_recon = data.path + '/reconstruction' 
-folder_list = list(['/20200205/arena_20200205_033300_033500__pcutoff9e-01', # 0 # 20200205
-                    '/20200205/arena_20200205_034400_034650__pcutoff9e-01', # 1
-                    '/20200205/arena_20200205_038400_039000__pcutoff9e-01', # 2
-                    '/20200205/arena_20200205_039200_039500__pcutoff9e-01', # 3
-                    '/20200205/arena_20200205_039800_040000__pcutoff9e-01', # 4
-                    '/20200205/arena_20200205_040500_040700__pcutoff9e-01', # 5
-                    '/20200205/arena_20200205_041500_042000__pcutoff9e-01', # 6
-                    '/20200205/arena_20200205_045250_045500__pcutoff9e-01', # 7
-                    '/20200205/arena_20200205_046850_047050__pcutoff9e-01', # 8
-                    '/20200205/arena_20200205_048500_048700__pcutoff9e-01', # 9
-                    '/20200205/arena_20200205_049200_050300__pcutoff9e-01', # 10
-                    '/20200205/arena_20200205_050900_051300__pcutoff9e-01', # 11
-                    '/20200205/arena_20200205_052050_052200__pcutoff9e-01', # 12
-                    '/20200205/arena_20200205_055200_056000__pcutoff9e-01', # 13
-                    '/20200207/arena_20200207_032200_032550__pcutoff9e-01', # 14 # 20200207
-                    '/20200207/arena_20200207_044500_045400__pcutoff9e-01', # 15
-                    '/20200207/arena_20200207_046300_046900__pcutoff9e-01', # 16
-                    '/20200207/arena_20200207_048000_049800__pcutoff9e-01', # 17
-                    '/20200207/arena_20200207_050000_050400__pcutoff9e-01', # 18
-                    '/20200207/arena_20200207_050800_051300__pcutoff9e-01', # 19
-                    '/20200207/arena_20200207_052250_052650__pcutoff9e-01', # 20
-                    '/20200207/arena_20200207_053050_053500__pcutoff9e-01', # 21
-                    '/20200207/arena_20200207_055100_056200__pcutoff9e-01', # 22
-                    '/20200207/arena_20200207_058400_058900__pcutoff9e-01', # 23
-                    '/20200207/arena_20200207_059450_059950__pcutoff9e-01', # 24
-                    '/20200207/arena_20200207_060400_060800__pcutoff9e-01', # 25
-                    '/20200207/arena_20200207_061000_062100__pcutoff9e-01', # 26
-                    '/20200207/arena_20200207_064100_064400__pcutoff9e-01',]) # 27
-folder_list_use = list([i.split('/')[2].split('__')[0] for i in folder_list])
-folder_list_indices = list([[[int(i.split('_')[-2]), int(i.split('_')[-1])]] for i in folder_list_use])
-frame_rate = 100.0
+species = 'rat'
 
+if species=='rat':
+    folder_recon = data.path + '/datasets_figures/reconstruction'
+    folder_list = list(['/20200205/arena_20200205_033300_033500', # 0 # 20200205
+                        '/20200205/arena_20200205_034400_034650', # 1
+                        '/20200205/arena_20200205_038400_039000', # 2
+                        '/20200205/arena_20200205_039200_039500', # 3
+                        '/20200205/arena_20200205_039800_040000', # 4
+                        '/20200205/arena_20200205_040500_040700', # 5
+                        '/20200205/arena_20200205_041500_042000', # 6
+                        '/20200205/arena_20200205_045250_045500', # 7
+                        '/20200205/arena_20200205_046850_047050', # 8
+                        '/20200205/arena_20200205_048500_048700', # 9
+                        '/20200205/arena_20200205_049200_050300', # 10
+                        '/20200205/arena_20200205_050900_051300', # 11
+                        '/20200205/arena_20200205_052050_052200', # 12
+                        '/20200205/arena_20200205_055200_056000', # 13
+                        '/20200207/arena_20200207_032200_032550', # 14 # 20200207
+                        '/20200207/arena_20200207_044500_045400', # 15
+                        '/20200207/arena_20200207_046300_046900', # 16
+                        '/20200207/arena_20200207_048000_049800', # 17
+                        '/20200207/arena_20200207_050000_050400', # 18
+                        '/20200207/arena_20200207_050800_051300', # 19
+                        '/20200207/arena_20200207_052250_052650', # 20
+                        '/20200207/arena_20200207_053050_053500', # 21
+                        '/20200207/arena_20200207_055100_056200', # 22
+                        '/20200207/arena_20200207_058400_058900', # 23
+                        '/20200207/arena_20200207_059450_059950', # 24
+                        '/20200207/arena_20200207_060400_060800', # 25
+                        '/20200207/arena_20200207_061000_062100', # 26
+                        '/20200207/arena_20200207_064100_064400', # 27
+                        ])
+    folder_list_use = list([i.split('/')[2] for i in folder_list])
+    folder_list_indices = list([[[int(i.split('_')[-2]), int(i.split('_')[-1])]] for i in folder_list_use])
+    frame_rate = 100.0
+
+    add2cfg = ''
+
+    if (mode == 'mode4'):
+        add2folder = '__pcutoff9e-01'
+    elif (mode == 'mode1'):
+        add2folder = '__mode1__pcutoff9e-01'
+    else:
+        raise
+elif species=='mouse':
+    folder_recon = data.path + '/dataset_analysis/'
+    folder_list = list(['M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193132',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193232',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193244',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193331',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193407',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193421',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193442',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193502',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193517',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193536',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193552',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193611',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193644',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193708',
+                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193726',
+                        ])
+    folder_list_use = list([i.split('/')[2] for i in folder_list])
+    folder_list_indices = list([[[int(i.split('_')[-2]), int(i.split('_')[-1])]] for i in folder_list_use])
+    frame_rate = 196.0
+
+    add2cfg = '/../..'
+
+#
 list_is_large_animal = list([0 for i in folder_list])
 
 threshold_velocity = 25.0 # cm/s
@@ -369,7 +407,7 @@ if __name__ == '__main__':
             
             folder = folder_recon+folder_list[i_folder]
             sys.path = list(np.copy(sys_path0))
-            sys.path.append(folder)
+            sys.path.append(folder+add2cfg)
             importlib.reload(cfg)
             cfg.animal_is_large = list_is_large_animal[i_folder]
             importlib.reload(anatomy)
@@ -378,12 +416,20 @@ if __name__ == '__main__':
                 print(folder)
 
                 # get arguments
-                folder_reqFiles = data.path + '/required_files' 
-                file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
-                file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
-                file_model = folder_reqFiles + '/model.npy'
-#                 file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/labels_dlc_{:06d}_{:06d}.npy'.format(cfg.index_frame_start, cfg.index_frame_end)
-                file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + cfg.file_labelsDLC.split('/')[-1]
+                folder_reqFiles = data.path + '/datasets_figures/required_files'
+
+                file_origin_coord = cfg.file_origin_coord
+                if not os.path.isfile(file_origin_coord):
+                    file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
+                file_calibration = cfg.file_calibration
+                if not os.path.isfile(file_calibration):
+                    file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
+                file_model = cfg.file_model
+                if not os.path.isfile(file_model):
+                    file_model = folder_reqFiles + '/model.npy'
+                file_labelsDLC = cfg.file_labelsDLC
+                if not os.path.isfile(file_labelsDLC):
+                    file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + cfg.file_labelsDLC.split('/')[-1]
 
                 file_labelsDLC_split = file_labelsDLC.split('/')
                 file_labelsDLC_3d = '/'.join(file_labelsDLC_split[:-1]) + '/' + file_labelsDLC_split[-1].split('.')[0] + '__3d.npy'
