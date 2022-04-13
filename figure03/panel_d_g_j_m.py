@@ -25,7 +25,7 @@ verbose = True
 
 mode = 'mode4'
 
-species = 'rat'
+species = 'mouse'
 
 if species=='rat':
     folder_recon = data.path + '/datasets_figures/reconstruction'
@@ -134,7 +134,7 @@ elif (axis == 1):
 elif (axis == 2):
     axis_s = 'z'
     
-folder_save = os.path.abspath('panels') + '/' + mode
+folder_save = os.path.abspath('panels') + '/' + mode + '/' + species
 
 #
 paws_joint_names = list(['joint_wrist_left', 'joint_wrist_right', 'joint_ankle_left', 'joint_ankle_right',])
