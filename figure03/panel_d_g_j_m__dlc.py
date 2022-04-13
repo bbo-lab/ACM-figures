@@ -20,13 +20,12 @@ import helper
 import model
 sys_path0 = np.copy(sys.path)
 
-save = False
-verbose = True
+save = True
+verbose = False
 
-modes_list = list(['mode1', 'mode4'])
-mode = 'mode4'
+mode = 'mode1'
 
-species = 'rat'
+species = 'mouse'
 
 if species=='rat':
     folder_recon = data.path + '/datasets_figures/reconstruction'
@@ -60,7 +59,9 @@ if species=='rat':
                         '/20200207/arena_20200207_064100_064400', # 27
                         ])
     folder_list_use = list([i.split('/')[2] for i in folder_list])
+    print(folder_list_use)
     folder_list_indices = list([[[int(i.split('_')[-2]), int(i.split('_')[-1])]] for i in folder_list_use])
+    print(folder_list_indices)
     frame_rate = 100.0
 
     add2cfg = ''
@@ -71,29 +72,53 @@ if species=='rat':
         add2folder = '__mode1__pcutoff9e-01'
     else:
         raise
+
 elif species=='mouse':
     folder_recon = data.path + '/dataset_analysis/'
-    folder_list = list(['M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193132',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193232',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193244',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193331',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193407',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193421',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193442',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193502',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193517',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193536',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193552',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193611',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193644',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193708',
-                        'M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220412-193726',
+    folder_list = list(['/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_003412_004000',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_006254_006598',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_008018_008508',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_016543_017033',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_019581_020169',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_021051_021639',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_032712_033398',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_042610_043198',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_053291_054271',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_059955_060641',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_074948_075634',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_078377_078965',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_086609_087687',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_109050_109441',
+                        '/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_111401_112185',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_000300_000900',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_001500_001900',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_002900_003400',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_004600_005100',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_006100_006500',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_009800_010700',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_011600_012100',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_013200_014000',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_015600_016100',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_016700_017400',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_021600_022300',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_044600_045300',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_050700_051200',
+                        '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_060700_061800',
                         ])
-    folder_list_use = list([i.split('/')[2] for i in folder_list])
+    folder_list_use = list([i.split('/')[6] for i in folder_list])
+    print(folder_list_use)
     folder_list_indices = list([[[int(i.split('_')[-2]), int(i.split('_')[-1])]] for i in folder_list_use])
+    print(folder_list_indices)
     frame_rate = 196.0
 
-    add2cfg = '/../..'
+    add2cfg = '/configuration/'
+
+    if (mode == 'mode4'):
+        add2folder = '__mode4__pcutoff9e-01'
+    elif (mode == 'mode1'):
+        add2folder = '__mode1__pcutoff9e-01'
+    else:
+        raise
 
 #
 list_is_large_animal = list([0 for i in folder_list])
@@ -107,16 +132,20 @@ elif (axis == 1):
     axis_s = 'y'
 elif (axis == 2):
     axis_s = 'z'
-    
+
+folder_save = os.path.abspath('panels') + '/' + mode + '/' + species
+os.makedirs(folder_save,exist_ok=True)
+#
 paws_joint_names = list(['marker_paw_front_left_start', 'marker_paw_front_right_start', 'marker_ankle_left_start', 'marker_ankle_right_start',])
 paws_joint_names_legend = list(['left wrist marker', 'right wrist marker', 'left ankle marker', 'right ankle marker',])
-
+#
 angle_joint_list = list([['marker_paw_front_left_start', 'marker_paw_front_right_start', 'marker_ankle_left_start', 'marker_ankle_right_start',]])
 angle_joint_legend_list = list([['left wrist marker', 'right wrist marker', 'left ankle marker', 'right ankle marker',]])
-
+#
 nAngles_pairs = np.size(angle_joint_list, 0)
 if not(nAngles_pairs == 1):
     raise # change naming of figures for nAngles_pairs > 1
+#
 
 mm_in_inch = 5.0/127.0
 plt.rcParams['font.family'] = 'Arial'
@@ -405,7 +434,7 @@ if __name__ == '__main__':
         #
         for i_folder in range(nFolders):
             
-            folder = folder_recon+folder_list[i_folder]
+            folder = folder_recon+folder_list[i_folder]+add2folder
             sys.path = list(np.copy(sys_path0))
             sys.path.append(folder+add2cfg)
             importlib.reload(cfg)
@@ -418,16 +447,16 @@ if __name__ == '__main__':
                 # get arguments
                 folder_reqFiles = data.path + '/datasets_figures/required_files'
 
-                file_origin_coord = cfg.file_origin_coord
+                file_origin_coord = folder+'/configuration/file_origin_coord.npy'
                 if not os.path.isfile(file_origin_coord):
                     file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
-                file_calibration = cfg.file_calibration
+                file_calibration = folder+'/configuration/file_calibration.npy'
                 if not os.path.isfile(file_calibration):
                     file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
-                file_model = cfg.file_model
+                file_model = folder+'/configuration/file_model.npy'
                 if not os.path.isfile(file_model):
                     file_model = folder_reqFiles + '/model.npy'
-                file_labelsDLC = cfg.file_labelsDLC
+                file_labelsDLC = folder+'/configuration/file_labelsDLC.npy'
                 if not os.path.isfile(file_labelsDLC):
                     file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + cfg.file_labelsDLC.split('/')[-1]
 

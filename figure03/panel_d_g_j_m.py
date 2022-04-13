@@ -132,7 +132,7 @@ elif (axis == 1):
     axis_s = 'y'
 elif (axis == 2):
     axis_s = 'z'
-    
+
 folder_save = os.path.abspath('panels') + '/' + mode + '/' + species
 os.makedirs(folder_save,exist_ok=True)
 #
