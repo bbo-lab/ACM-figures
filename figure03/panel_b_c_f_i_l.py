@@ -191,7 +191,7 @@ if __name__ == '__main__':
         nSamples = np.copy(nSamples_use)
         print(save_dict['message'])
     else:
-        mu_uks = save_dict['mu'][1:]
+        mu_uks = save_dict['mu_fit'][1:]
         nT = np.size(mu_uks, 0)
         nPara = np.size(mu_uks, 1)
         var_dummy = np.identity(nPara, dtype=np.float64) * 2**-52
