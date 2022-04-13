@@ -47,9 +47,11 @@ for i_frame, frame_idx in enumerate(labels_dlc_3d['frame_list']):
     #
     for i_marker in range(nMarkers):
         labels_2d = labels_dlc[np.where(frame_list==frame_idx)[0][0], :, i_marker]
+        #print()
+        #print(labels_2d)
         labels_2d_pcutoff = labels_2d[:, 2]
         labels_2d_pcutoff[np.isnan(labels_2d_pcutoff)] = 0.0
-        #
+        # Only use 2 most certain detections
         index_max_1 = np.argmax(labels_2d_pcutoff)
         labels_2d_pcutoff[index_max_1] = -np.inf
         index_max_2 = np.argmax(labels_2d_pcutoff)
@@ -58,7 +60,11 @@ for i_frame, frame_idx in enumerate(labels_dlc_3d['frame_list']):
         mask_nan[index_max_2] = False
         #
         labels_2d[mask_nan] = np.nan
-        labels_dlc_3d[i_frame, i_marker] = interp_3d.calc_3d_point(labels_2d, A, k, rX1, tX1)
+        #print()
+        #print(labels_2d)
+        labels_dlc_3d['labels_all'][i_frame, i_marker] = interp_3d.calc_3d_point(labels_2d, A, k, rX1, tX1)
+        #print()
+        #print(labels_dlc_3d['labels_all'][i_frame, i_marker])
 #
 print(labels_dlc_3d['labels_all'])
 file_save = file_dlc[:-4]+'__3d.npy'
