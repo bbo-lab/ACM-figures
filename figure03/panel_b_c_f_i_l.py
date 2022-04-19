@@ -79,7 +79,7 @@ folder_list[0:28] = list([folder_recon + i + add2folder for i in folder_list[0:2
 folder_list[28:] = list([data.path + '/' + i for i in folder_list[28:]])
 
 project_folder_list = folder_list.copy()
-project_folder_list[28:] = [ i + '/../../' for i in folder_list[28:] ]
+project_folder_list[28:] = [ i + '/configuration/' for i in folder_list[28:] ]
 
 frame_range = [None for i in folder_list]
 frame_range[28] = [16600, int(16600+15+2*0.6*196)]
@@ -100,7 +100,7 @@ importlib.reload(anatomy)
 if type(cfg.index_frames_calib[0][0])==int:
     index_frames_calib_start = cfg.index_frames_calib[0][0]
 elif cfg.index_frames_calib=='all':
-    index_frames_calib_start = sorted(np.load(cfg.file_labelsManual,allow_pickle=True)['arr_0'].item().keys())[0]
+    index_frames_calib_start = sorted(np.load(folder+'/configuration/file_labelsManual.npz',allow_pickle=True)['arr_0'].item().keys())[0]
 else:
     print(f'Error: {cfg.index_frames_calib[0]}')
     exit()
@@ -202,18 +202,20 @@ if __name__ == '__main__':
     var_uks = var_uks[frame_start-cfg.index_frame_ini:frame_end-cfg.index_frame_ini]
     #
 
+    # get arguments
     folder_reqFiles = data.path + '/datasets_figures/required_files'
 
-    file_origin_coord = cfg.file_origin_coord
+    file_origin_coord = folder+'/configuration/file_origin_coord.npy'
     if not os.path.isfile(file_origin_coord):
         file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
-    file_calibration = cfg.file_calibration
+    file_calibration = folder+'/configuration/file_calibration.npy'
     if not os.path.isfile(file_calibration):
+        print(file_calibration)
         file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
-    file_model = cfg.file_model
+    file_model = folder+'/configuration/file_model.npy'
     if not os.path.isfile(file_model):
         file_model = folder_reqFiles + '/model.npy'
-    file_labelsDLC = cfg.file_labelsDLC
+    file_labelsDLC = folder+'/configuration/file_labelsDLC.npy'
     if not os.path.isfile(file_labelsDLC):
         file_labelsDLC = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/' + cfg.file_labelsDLC.split('/')[-1]
 
