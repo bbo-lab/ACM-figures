@@ -31,7 +31,7 @@ save = True
 save_leg = False
 verbose = True
 
-mode = 'mode1' # 'mode4' or 'mode1' change to the latter to generate plots for naive skeleton model
+mode = 'mode4' # 'mode4' or 'mode1' change to the latter to generate plots for naive skeleton model
 
 folder_save = os.path.abspath('panels') + '/trace/' + mode
 
@@ -71,9 +71,9 @@ folder_list = list(['/20200205/arena_20200205_033300_033500', # 0 # 20200205
                     '/20200207/arena_20200207_060400_060800', # 25
                     '/20200207/arena_20200207_061000_062100', # 26
                     '/20200207/arena_20200207_064100_064400', # 27
-                    '/dataset_analysis/M220217_DW01/ACM/M220217_DW01_20220401-155200/results/M220217_DW01_20220401-155200_20220401-155411', # 28
-                    'dataset_analysis/R220318_DW01/20220318/ACM/R220318_DW01_20220318_01/results/R220318_DW01_20220318_01_20220331-205800_20220403-171117', # 29
-                    'dataset_analysis/R220318_DW01/20220318/ACM/R220318_DW01_20220318_01/results/R220318_DW01_20220318_01_083000-083000_mode1_20220408-091122', # 30
+                    '/dataset_analysis/M220217_DW01/20220217/ACM/M220217_DW01/results/M220217_DW01_20220401-155200_20220405-162155', # 28
+                    '/dataset_analysis/R220318_DW01/20220318/ACM/R220318_DW01_20220318_01/results/R220318_DW01_20220318_01_20220403-171117', #29
+                    '/dataset_analysis/R220318_DW01/20220318/ACM/R220318_DW01_20220318_01/results/R220318_DW01_20220318_01_083000-083000_mode1_20220408-091122', # 30
                     ])
 folder_list[0:28] = list([folder_recon + i + add2folder for i in folder_list[0:28]])
 folder_list[28:] = list([data.path + '/' + i for i in folder_list[28:]])
@@ -83,11 +83,11 @@ project_folder_list[28:] = [ i + '/../../' for i in folder_list[28:] ]
 
 frame_range = [None for i in folder_list]
 frame_range[28] = [16600, int(16600+15+2*0.6*196)]
-#frame_range[29] = [83240-15, int(83540+0.6*196)]
-frame_range[29] = [83240, int(83240+15+3*196+0.6*196)]
+frame_range[29] = [83240-15, int(83540+0.6*196)]
+#frame_range[29] = [83240, int(83240+15+3*196+0.6*196)]
 frame_range[30] = [83240, int(83240+15+3*196+0.6*196)]
 
-dataset_to_use = 30
+dataset_to_use = 28 #30 # 14
 # 14
 folder = folder_list[dataset_to_use]
 #
@@ -97,7 +97,7 @@ importlib.reload(cfg)
 cfg.animal_is_large = 0
 importlib.reload(anatomy)
 
-if type(cfg.index_frames_calib[0][0])=='int':
+if type(cfg.index_frames_calib[0][0])==int:
     index_frames_calib_start = cfg.index_frames_calib[0][0]
 elif cfg.index_frames_calib=='all':
     index_frames_calib_start = sorted(np.load(cfg.file_labelsManual,allow_pickle=True)['arr_0'].item().keys())[0]

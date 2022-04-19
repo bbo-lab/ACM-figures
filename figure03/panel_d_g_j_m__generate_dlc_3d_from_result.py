@@ -66,6 +66,5 @@ for i_frame, frame_idx in enumerate(labels_dlc_3d['frame_list']):
         #print()
         #print(labels_dlc_3d['labels_all'][i_frame, i_marker])
 #
-print(labels_dlc_3d['labels_all'])
 file_save = file_dlc[:-4]+'__3d.npy'
 np.save(file_save, labels_dlc_3d)
