@@ -82,10 +82,9 @@ project_folder_list = folder_list.copy()
 project_folder_list[28:] = [ i + '/configuration/' for i in folder_list[28:] ]
 
 frame_range = [None for i in folder_list]
-frame_range[28] = [16600, int(16600+15+2*0.6*196)]
-frame_range[29] = [83240-15, int(83540+0.6*196)]
-#frame_range[29] = [83240, int(83240+15+3*196+0.6*196)]
-frame_range[30] = [83240, int(83240+15+3*196+0.6*196)]
+frame_range[28] = [16500, int(16500+2*0.6*196)]
+frame_range[29] = [83240, int(83540+2*0.6*196)]
+frame_range[30] = [83240, int(83540+2*0.6*196)]
 
 dataset_to_use = 28 #30 # 14
 # 14
@@ -700,7 +699,7 @@ if __name__ == '__main__':
                       [ax4, ax40, ax400, angle_velocity_mean, angle_velocity_std],])
     index_start = int(15)
     print(cfg.frame_rate)
-    index_end = frame_end-frame_start - int(0.6*cfg.frame_rate)
+    index_end = index_start + frame_end-frame_start - int(0.6*cfg.frame_rate)
     for i_item in range(4):
         print('metric: #{:01d}'.format(i_item+1))
         item = item_list[i_item]

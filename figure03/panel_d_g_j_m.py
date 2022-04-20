@@ -23,9 +23,9 @@ sys_path0 = np.copy(sys.path)
 save = True
 verbose = False
 
-mode = 'mode1'
+mode = 'mode4'
 
-species = 'mouse'
+species = 'rat'
 
 if species=='rat':
     folder_recon = data.path + '/datasets_figures/reconstruction'
