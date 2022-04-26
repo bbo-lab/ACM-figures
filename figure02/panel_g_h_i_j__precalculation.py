@@ -23,8 +23,9 @@ sys_path0 = np.copy(sys.path)
 save = True
 
 folder_save = os.path.abspath('panels')
+os.makedirs(folder_save, exist_ok=True)
 
-folder_reconstruction = data.path+'/reconstruction'
+folder_reconstruction = data.path+'/datasets_figures/reconstruction'
 folder_list1 = list(['20200205/table_20200205_020300_021800__pcutoff9e-01', # mode4
                      '20200205/table_20200205_023300_025800__pcutoff9e-01',
                      '20200205/table_20200205_048800_050200__pcutoff9e-01',
@@ -364,7 +365,7 @@ if __name__ == '__main__':
         
         print('mode:\t{:01d}'.format(cfg.mode))
 
-        folder_reqFiles = data.path + '/required_files' 
+        folder_reqFiles = data.path + '/datasets_figures/required_files'
         file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
         file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
         file_model = folder_reqFiles + '/model.npy'
