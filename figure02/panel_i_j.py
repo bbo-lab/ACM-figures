@@ -27,7 +27,7 @@ save = False
 folder_save = os.path.abspath('panels')
 
 # data_req_folder = 'data'
-folder_reconstruction = data.path+'/reconstruction'
+folder_reconstruction = data.path+'/datasets_figures/reconstruction'
 data_folder1 = folder_reconstruction+'/20200205/'
 data_folder2 = folder_reconstruction+'/20200207/'
 data_folder3 = folder_reconstruction+'/20210511_1/'
@@ -522,7 +522,7 @@ if __name__ == '__main__':
             cfg.animal_is_large = list_is_large_animal[i_folder]
             importlib.reload(anatomy)
 
-            folder_reqFiles = data.path + '/required_files' 
+            folder_reqFiles = data.path + '/datasets_figures/required_files'
             file_origin_coord = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/origin_coord.npy'
             file_calibration = folder_reqFiles + '/' + cfg.date + '/' + cfg.task + '/multicalibration.npy'
             file_model = folder_reqFiles + '/model.npy'
