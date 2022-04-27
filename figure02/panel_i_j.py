@@ -965,6 +965,18 @@ if __name__ == '__main__':
         print('stat={:0.8f}, p={:0.15e}'.format(stat_pos, p_pos))
         print()
 
+    print('Wilcoxon signed-rank test:')
+    print()
+    for i_mode in list([1, 2, 3]):
+        print(errors_modes_sorted[0].shape)
+        print(errors_modes_sorted[i_mode].shape)
+        stat_pos, p_pos = scipy.stats.wilcoxon(errors_modes_sorted[0], errors_modes_sorted[i_mode],
+                                                   alternative='less')
+        print('mode pair:')
+        print('mode4 / mode{:01d}'.format(-i_mode + 4))
+        print('stat={:0.8f}, p={:0.15e}'.format(stat_pos, p_pos))
+        print()
+
     if save:
         fig2d.savefig(folder_save+'/undetected_marker_error__vs__time.svg',
     #                             bbox_inches="tight",
