@@ -23,9 +23,9 @@ sys_path0 = np.copy(sys.path)
 save = True
 verbose = False
 
-mode = 'mode4'
+mode = 'mode1'
 
-species = 'rat'
+species = 'mouse'
 
 if species=='rat':
     folder_recon = data.path + '/datasets_figures/reconstruction'
@@ -59,9 +59,7 @@ if species=='rat':
                         '/20200207/arena_20200207_064100_064400', # 27
                         ])
     folder_list_use = list([i.split('/')[2] for i in folder_list])
-    print(folder_list_use)
     folder_list_indices = list([[[int(i.split('_')[-2]), int(i.split('_')[-1])]] for i in folder_list_use])
-    print(folder_list_indices)
     frame_rate = 100.0
 
     add2cfg = ''
@@ -106,9 +104,7 @@ elif species=='mouse':
                         '/M220217_DW03/20220217/ACM/M220217_DW03/results/M220217_DW03_060700_061800',
                         ])
     folder_list_use = list([i.split('/')[6] for i in folder_list])
-    print(folder_list_use)
     folder_list_indices = list([[[int(i.split('_')[-2]), int(i.split('_')[-1])]] for i in folder_list_use])
-    print(folder_list_indices)
     frame_rate = 196.0
 
     add2cfg = '/configuration/'
@@ -438,14 +434,11 @@ if __name__ == '__main__':
             folder = folder_recon+folder_list[i_folder]+add2folder
             sys.path = list(np.copy(sys_path0))
             sys.path.append(folder+add2cfg)
-            print(folder+add2cfg)
             importlib.reload(cfg)
             cfg.animal_is_large = list_is_large_animal[i_folder]
             importlib.reload(anatomy)
             
             if os.path.isfile(folder+'/save_dict.npy'):
-                print(folder)
-
                 # get arguments
                 folder_reqFiles = data.path + '/datasets_figures/required_files'
 
@@ -524,8 +517,6 @@ if __name__ == '__main__':
                     nT_use = np.size(mu_uks_norm, 0)
                     x = np.tile(x_ini, nT_use).reshape(nT_use, len(x_ini))
                     x[:, free_para] = mu_uks
-
-                    print(x.shape)
 
                     # get poses
                     _, _, skeleton_pos = model.fcn_emission(torch.from_numpy(x), args_model)
